@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#be1623</color>
+    <color name="colorPrimaryDark">#9b141d</color>
+    <color name="colorAccent">#be1623</color>
+    <color name="colorPrimaryLight">#e20f1d</color>
+
+    <color name="title_text">#47211e</color>
+    <color name="body_text">#47211e</color>
+    <color name="highlight_text">#ad131f</color>
+
+    <color name="line_list">#9b9b9b</color>
+
+    <color name="edit_text">#ccc9c9</color>
+    <integer-array name="progressbar_colors">
+        <item>@color/colorPrimaryLight</item>
+        <item>@color/title_text</item>
+        <item>@color/colorPrimaryLight</item>
+        <item>@color/title_text</item>
+
+    </integer-array>
+
+</resources>

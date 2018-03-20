@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin_big">
+
+            <TextView
+                android:id="@+id/brandLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/brand"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/brandTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <TextView
+                android:id="@+id/typeLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/type"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/typeTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <TextView
+                android:id="@+id/sizeLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/size"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/sizeTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+            <TextView
+                android:id="@+id/orderByLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/order_by"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/orderByDateBTN"
+                    android:layout_width="62dp"
+                    android:layout_marginTop="@dimen/layout_margin_small"
+                    android:layout_height="40dp"
+                    android:textColor="@color/line_list"
+                    android:textAllCaps="false"
+                    android:text="@string/order_date"
+                    android:background="@drawable/option_not_select"/>
+                <Button
+                    android:id="@+id/orderByPriceBTN"
+                    android:layout_width="69dp"
+                    android:layout_marginTop="@dimen/layout_margin_small"
+                    android:layout_height="40dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/line_list"
+                    android:layout_marginStart="@dimen/layout_margin_big"
+                    android:text="@string/order_price"
+                    android:background="@drawable/option_not_select"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/filterBTN"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/default_button"
+        android:textAllCaps="true"
+        android:text="@string/apply_filter"
+        android:textColor="@android:color/white"/>
+</RelativeLayout>
+

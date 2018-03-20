@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin_big">
+
+            <TextView
+                android:id="@+id/brandLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/brand"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/brandTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <TextView
+                android:id="@+id/typeLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/type"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/typeTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <TextView
+                android:id="@+id/sizeLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/size"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/sizeTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/layout_margin_normal"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/priceLabelTXV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin_normal"
+                        android:text="@string/price"
+                        android:textColor="@color/body_text"
+                        android:textSize="@dimen/textsize_normal" />
+                    <EditText
+                        android:id="@+id/priceETX"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edittext_normal_height"
+                        android:layout_marginTop="@dimen/layout_margin_small"
+                        android:background="@drawable/edit_text"
+                        android:inputType="text"
+                        android:hint="@string/price_start"
+                        android:paddingStart="@dimen/layout_margin_normal"
+                        android:textColorHint="@color/body_text"
+                        android:textSize="@dimen/textsize_normal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/layout_margin_normal"
+
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/expireDateLabelTXV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin_normal"
+                        android:text="@string/expire_product"
+                        android:textColor="@color/body_text"
+                        android:textSize="@dimen/textsize_normal" />
+                    <TextView
+                        android:id="@+id/expireTXV"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/combo_normal_height"
+                        android:textColor="@color/body_text"
+                        android:textColorHint="@color/body_text"
+                        android:hint="@string/dateStart"
+                        android:padding="@dimen/layout_margin_normal"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/textsize_normal"
+                        android:drawableEnd="@drawable/ic_date"
+                        android:background="@drawable/edit_text"
+                        android:lines="1"
+                        android:layout_marginTop="@dimen/layout_margin_small" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/addressLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textColor="@color/body_text"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:textSize="@dimen/textsize_normal" />
+            <TextView
+                android:id="@+id/addressTXV"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/combo_normal_height"
+                android:textColor="@color/body_text"
+                android:textColorHint="@color/body_text"
+                android:hint="@string/select"
+                android:padding="@dimen/layout_margin_normal"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_normal"
+                android:drawableEnd="@drawable/ic_place"
+                android:background="@drawable/edit_text"
+                android:lines="1"
+                android:layout_marginTop="@dimen/layout_margin_small" />
+
+            <TextView
+                android:id="@+id/descriptionLabelTXV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_normal"
+                android:text="@string/description"
+                android:textColor="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+
+            <EditText
+                android:id="@+id/nameETX"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edittext_big_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/nameIMV"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:background="@drawable/edit_text"
+                android:inputType="text"
+                android:paddingStart="@dimen/layout_margin_normal"
+                android:textColorHint="@color/body_text"
+                android:textSize="@dimen/textsize_normal" />
+
+        </LinearLayout>
+
+    </ScrollView>
+    <Button
+        android:id="@+id/registerBTN"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/default_button"
+        android:textAllCaps="true"
+        android:text="@string/register"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>

@@ -63,15 +63,17 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
             swipeRefreshLayout.isRefreshing = true;
             onRefresh()
         }
-        prepareFeedbackLayout(activity.getText(R.string.check_your_conection).toString(),
-                activity.getText(R.string.try_again_when_online).toString(),
-                ContextCompat.getDrawable(context, R.drawable.ic_offline))
+        prepareFeedbackLayout(activity?.getText(R.string.check_your_conection).toString(),
+                activity?.getText(R.string.try_again_when_online).toString(),
+                context?.let {
+                    ContextCompat.getDrawable(it, R.drawable.ic_offline)
+                })
 
     }
 
     private fun prepareLoadingLayout() {
         feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.setText(activity.getText(R.string.loading_promo_list))
+        feedbackTitleTXV.text = context?.getText(R.string.loading_promo_list)
         feedbackIMG.visibility = View.GONE
         feedbackSubtitleTXV.visibility = View.GONE
         tryAgainBTN.visibility = View.GONE
@@ -80,9 +82,9 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
     private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
 
         feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.setText(title)
+        feedbackTitleTXV.text = title
         feedbackSubtitleTXV.visibility = View.VISIBLE
-        feedbackSubtitleTXV.setText(subtitle)
+        feedbackSubtitleTXV.text = subtitle
 
         drawable?.let {
             feedbackIMG.visibility = View.VISIBLE

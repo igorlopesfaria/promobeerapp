@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_promo_list.view.*
 
 class PromoListAdapter(
         val promoList: List<Promo>,
-        val context: Context) : Adapter<PromoListAdapter.ViewHolder>() {
+        val context: Context?) : Adapter<PromoListAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -28,7 +28,7 @@ class PromoListAdapter(
         val neighbhoodTXV = itemView.neighbhoodTXV
 
     }
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val promoItem = promoList[position]
         holder?.let {
             Picasso.with(context)
@@ -39,13 +39,13 @@ class PromoListAdapter(
                     promoItem?.product?.productType?.name
             it.priceTXV.text = promoItem?.price
             it.productSizeTXV.text = promoItem?.product?.productSize?.material+": "+promoItem?.product?.productSize?.value
-            it.publishedDateTXV.text = context.getText(R.string.publishedDate) as String+" "+promoItem?.publishedDate
+            it.publishedDateTXV.text = context?.getText(R.string.publishedDate) as String+" "+promoItem?.publishedDate
             it.neighbhoodTXV.text = promoItem?.address?.neighborhood
 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_promo_list, parent, false)
         return ViewHolder(view)
     }

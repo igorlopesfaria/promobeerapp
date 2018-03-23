@@ -47,7 +47,7 @@ class PromoFilterFragment : Fragment() {
         super.onCreateOptionsMenu(menu,menuInflater);
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         selecOrderByButton()
         orderByDateBTN.setOnClickListener { view ->
@@ -68,16 +68,18 @@ class PromoFilterFragment : Fragment() {
     }
 
     fun selecOrderByButton(){
-        if(orderFilterState == OrderFilterState.BY_DATE){
-            orderByPriceBTN.background = ContextCompat.getDrawable(context, R.drawable.option_not_select);
-            orderByPriceBTN.setTextColor(ContextCompat.getColor(context, R.color.line_list));
-            orderByDateBTN.background = ContextCompat.getDrawable(context, R.drawable.option_select);
-            orderByDateBTN.setTextColor(ContextCompat.getColor(context, android.R.color.white));
-        }else{
-            orderByPriceBTN.background = ContextCompat.getDrawable(context, R.drawable.option_select);
-            orderByPriceBTN.setTextColor(ContextCompat.getColor(context, android.R.color.white));
-            orderByDateBTN.background = ContextCompat.getDrawable(context, R.drawable.option_not_select);
-            orderByDateBTN.setTextColor(ContextCompat.getColor(context, R.color.line_list));
+        context?.let{
+            if(orderFilterState == OrderFilterState.BY_DATE){
+                orderByPriceBTN.background = ContextCompat.getDrawable(it, R.drawable.option_not_select);
+                orderByPriceBTN.setTextColor(ContextCompat.getColor(it, R.color.line_list));
+                orderByDateBTN.background = ContextCompat.getDrawable(it, R.drawable.option_select);
+                orderByDateBTN.setTextColor(ContextCompat.getColor(it, android.R.color.white));
+            }else{
+                orderByPriceBTN.background = ContextCompat.getDrawable(it, R.drawable.option_select);
+                orderByPriceBTN.setTextColor(ContextCompat.getColor(it, android.R.color.white));
+                orderByDateBTN.background = ContextCompat.getDrawable(it, R.drawable.option_not_select);
+                orderByDateBTN.setTextColor(ContextCompat.getColor(it, R.color.line_list));
+            }
         }
     }
 

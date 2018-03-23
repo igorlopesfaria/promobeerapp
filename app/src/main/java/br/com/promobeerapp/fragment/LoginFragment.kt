@@ -29,3 +29,8 @@ class LoginFragment : Fragment() {
 
 
 }
+//db.insert("User",
+//"id" to 42,
+//"name" to "John",
+//"email" to "user@domain.org"
+//)

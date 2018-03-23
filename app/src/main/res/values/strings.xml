@@ -33,5 +33,5 @@
     <string name="loading_promo_list">Carregando Promoções...</string>
     <string name="no_promo_found">Nenhuma promoção foi encontrada.</string>
     <string name="try_again_later">Verifique os filtros aplicados.</string>
-
+    <string name="facebook_app_id">2124105444297210</string>
 </resources>

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_product_brand_list.view.*
 
 class ProductBrandListAdapter(
         val productBrandList: List<ProductBrand>,
-        val context: Context,
+        val context: Context?,
         val fragment: Fragment) : Adapter<ProductBrandListAdapter.ViewHolder>() {
 
     var lastItemSelected:Int = -1
@@ -31,7 +31,7 @@ class ProductBrandListAdapter(
         val checkIMG = itemView.checkIMG
 
     }
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val brandItem = productBrandList[position]
         holder?.let {
             Picasso.with(context)
@@ -62,7 +62,7 @@ class ProductBrandListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_product_brand_list, parent, false)
         return ViewHolder(view)
     }

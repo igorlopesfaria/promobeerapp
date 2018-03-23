@@ -88,7 +88,7 @@ class ProductTypelListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     }
 
     internal val mRunnable: Runnable = Runnable {
-        if (!activity.isFinishing) {
+        if ((activity?.isFinishing)==false) {
             getProductTypeList();
         }
     }

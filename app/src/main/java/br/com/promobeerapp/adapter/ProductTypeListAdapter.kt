@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_product_size_list.view.*
 
 class ProductTypeListAdapter(
         val productTypeList: List<ProductType>,
-        val context: Context) : Adapter<ProductTypeListAdapter.ViewHolder>() {
+        val context: Context?) : Adapter<ProductTypeListAdapter.ViewHolder>() {
 
     var lastItemSelected:Int = -1
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -23,7 +23,7 @@ class ProductTypeListAdapter(
         val containerView = itemView.containerView
         val checkIMG = itemView.checkIMG
     }
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productTypeItem = productTypeList[position]
         holder?.let {
             it.descriptionTXV?.text = productTypeItem.name
@@ -50,7 +50,7 @@ class ProductTypeListAdapter(
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_product_size_list, parent, false)
         return ViewHolder(view)
     }

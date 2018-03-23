@@ -12,12 +12,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
+import br.com.promobeerapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var drawerToggle: ActionBarDrawerToggle
+    lateinit var user: User
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -42,6 +44,9 @@ class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, Navi
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
+
+       intent.extras?.let {user = it.getSerializable("user") as User  }
+
 
 
     }

@@ -15,9 +15,6 @@ import br.com.promobeerapp.fragment.listener.OnSelectProductBrandListListener
 import br.com.promobeerapp.model.ProductBrand
 import kotlinx.android.synthetic.main.fragment_product_brand_list.*
 import android.content.Context
-import android.widget.AdapterView
-
-
 
 
 class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,

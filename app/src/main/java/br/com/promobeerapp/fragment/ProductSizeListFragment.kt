@@ -94,7 +94,7 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     }
 
     internal val mRunnable: Runnable = Runnable {
-        if (!activity.isFinishing) {
+        if ((activity?.isFinishing)==false) {
             getProductSizeList();
         }
     }

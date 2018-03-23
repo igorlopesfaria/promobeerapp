@@ -29,7 +29,7 @@ class PromoRegisterFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         brandTXV.setOnClickListener{ view ->
             if (activity is MainActivity)

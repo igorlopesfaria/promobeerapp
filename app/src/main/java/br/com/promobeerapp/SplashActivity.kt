@@ -26,27 +26,22 @@ class SplashActivity : AppCompatActivity() {
 
     internal val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
-            val user = User("1", "Igor","igorlopesfaria@gmail.com", "")
-            db?.userDAO()?.insertUser(user)
-            db?.userDAO()?.getUser()?.
-                    subscribeOn(Schedulers.io())?.
-                    observeOn(AndroidSchedulers.mainThread())?.
-                    subscribe(
-                            { user ->
-                                val intent = Intent(applicationContext, MainActivity::class.java)
-                                intent.putExtra("user", user)
-                                startActivity(intent)
-                                finish()
-                            },
-                            { error ->
-                                Log.d("SingleObserver", error.message)
-                            })
-
-
-//            db?.userDAO()?.insertUser(user)?.
+//            db?.userDAO()?.getUser()?.
 //                    subscribeOn(Schedulers.io())?.
 //                    observeOn(AndroidSchedulers.mainThread())?.
-//                    subscribe(myObserver)
+//                    subscribe(
+//                            { user ->
+//                                val intent = Intent(applicationContext, MainActivity::class.java)
+//                                intent.putExtra("user", user)
+//                                startActivity(intent)
+//                                finish()
+//                            },
+//                            { error ->
+//                                Log.d("SingleObserver", error.message)
+//                            })
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            finish()
 
         }
     }

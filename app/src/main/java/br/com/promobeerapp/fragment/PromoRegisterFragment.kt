@@ -31,7 +31,7 @@ class PromoRegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        brandTXV.setOnClickListener{ view ->
+        brandTXV.setOnClickListener{
             if (activity is MainActivity)
                 (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
         }

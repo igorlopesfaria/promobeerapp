@@ -54,12 +54,12 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
-        floatingActionButton.setOnClickListener { view ->
+        floatingActionButton.setOnClickListener {
             if (activity is MainActivity )
                 (activity as MainActivity).changeFragment(PromoRegisterFragment.newInstance(), true)
         }
 
-        tryAgainBTN.setOnClickListener{view->
+        tryAgainBTN.setOnClickListener{
             swipeRefreshLayout.isRefreshing = true;
             onRefresh()
         }
@@ -358,7 +358,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
                         "16/03/18 - 10:00"))
 
         promoList.addAll(aas)
-        if(promoList?.size>0){
+        if(promoList.size>0){
             prepareRecyclerviewLayout()
             createPromoListAdapter()
         }else{
@@ -374,7 +374,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
     }
 
     private fun delay() {
-        if(promoList?.size==0)
+        if(promoList.size==0)
             prepareLoadingLayout()
         mDelayHandler = Handler()
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)

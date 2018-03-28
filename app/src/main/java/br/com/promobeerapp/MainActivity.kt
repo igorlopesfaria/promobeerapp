@@ -14,12 +14,17 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
 import br.com.promobeerapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.Intent
+
+
 
 
 class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var user: User
+
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -45,14 +50,17 @@ class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, Navi
         drawerToggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
 
-       intent.extras?.let {user = it.getSerializable("user") as User  }
+       intent.extras?.getSerializable("user")?.let {
+           user = it as User
+
+       }
 
 
 
     }
 
-    override fun onOptionsItemSelected( item:MenuItem): Boolean {
-        when(item?.itemId){
+    override fun onOptionsItemSelected(item:MenuItem): Boolean {
+        when(item.itemId){
             android.R.id.home ->{
 
                     drawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
@@ -103,6 +111,10 @@ class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, Navi
         } else {
             super.onBackPressed()
         }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
 

@@ -50,18 +50,18 @@ class PromoFilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         selecOrderByButton()
-        orderByDateBTN.setOnClickListener { view ->
+        orderByDateBTN.setOnClickListener {
             orderFilterState = OrderFilterState.BY_DATE
             selecOrderByButton()
         }
 
-        orderByPriceBTN.setOnClickListener { view ->
+        orderByPriceBTN.setOnClickListener {
             orderFilterState = OrderFilterState.BY_PRICE
             selecOrderByButton()
 
         }
 
-        filterBTN.setOnClickListener{view ->
+        filterBTN.setOnClickListener{
             activity?.onBackPressed()
 
         }

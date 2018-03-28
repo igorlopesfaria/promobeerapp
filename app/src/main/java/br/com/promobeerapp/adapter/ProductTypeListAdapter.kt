@@ -44,6 +44,8 @@ class ProductTypeListAdapter(
                 it.checkIMG.visibility =View.VISIBLE
             else
                 it.checkIMG.visibility =View.GONE
+
+            
         }
 
     }

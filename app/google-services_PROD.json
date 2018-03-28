@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "991438331",
+    "firebase_url": "https://promobeerapp-8bc90.firebaseio.com",
+    "project_id": "promobeerapp-8bc90",
+    "storage_bucket": "promobeerapp-8bc90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991438331:android:38967db7a38f568a",
+        "android_client_info": {
+          "package_name": "br.com.promobeerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991438331-7e0r8e5plltd7bc16c3m1v5gse0nouil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.promobeerapp",
+            "certificate_hash": "4fc73b90ff67b79e02ee98a379ab2be20fd59bff"
+          }
+        },
+        {
+          "client_id": "991438331-bv1ludgpm49oqdh7tb7q05pcclo5snc6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrouRIJN8_5QsyxYK9_rve7_zjn36KJpQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991438331-bv1ludgpm49oqdh7tb7q05pcclo5snc6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

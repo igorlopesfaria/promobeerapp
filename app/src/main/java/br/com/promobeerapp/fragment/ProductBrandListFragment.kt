@@ -1,31 +1,26 @@
 package br.com.promobeerapp.fragment
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductBrandListAdapter
-import br.com.promobeerapp.fragment.listener.OnSelectProductBrandListListener
+import br.com.promobeerapp.connection.ProductWebClient
+import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
 import br.com.promobeerapp.model.ProductBrand
 import kotlinx.android.synthetic.main.fragment_product_brand_list.*
-import android.content.Context
+import java.io.IOException
 
 
-class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-        OnSelectProductBrandListListener{
-
-
-    private lateinit var  productBrandList: List<ProductBrand>
-    private var mDelayHandler: Handler? = null
-    private val SPLASH_DELAY: Long = 3000 //3 seconds
-    var mCallback: OnSelectProductBrandListListener? = null
-
+class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+    private val productBrandList: MutableList<ProductBrand> = mutableListOf()
 
     companion object {
         fun newInstance(): ProductBrandListFragment {
@@ -36,77 +31,108 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return  inflater.inflate(R.layout.fragment_product_brand_list, container,
+        return inflater.inflate(R.layout.fragment_product_brand_list, container,
                 false)
-
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = context as OnSelectProductBrandListListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(activity.toString() + " must implement OnHeadlineSelectedListener")
-        }
-
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.setRefreshing(true);
-        delay()
+        swipeRefreshLayout.isRefreshing = true
+        onRefresh()
+
+        tryAgainBTN.setOnClickListener {
+            swipeRefreshLayout.isRefreshing = true;
+            onRefresh()
+        }
 
     }
 
 
-    private fun createBrandListAdapter(){
-        brandListRecyclerView.layoutManager = LinearLayoutManager(context)
+    private fun createBrandListAdapter() {
+        brandListRecyclerView.layoutManager = GridLayoutManager(context, 2)
         brandListRecyclerView.adapter = ProductBrandListAdapter(productBrandList, context, this)
 
     }
 
     private fun getBrandList() {
-        productBrandList =  listOf(
-                ProductBrand(1, "Skol", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(2, "Brahma", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(3, "Itaipava", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(4, "Amstel", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(5, "Devassa", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(6, "Heineken", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(7, "Budweiser", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(8, "Antarctica", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(9, "Schin", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(10, "Bohemia", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(11, "Proibida", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(12, "Serramalte", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"),
-                ProductBrand(13, "Corona", "https://seeklogo.com/images/B/brahma-logo-DA0DD07655-seeklogo.com.png"))
-        createBrandListAdapter()
-        swipeRefreshLayout.setRefreshing(false);
 
+        ProductWebClient().listBrands(object : CallbackServiceResponse<List<ProductBrand>> {
+            override fun success(productBrandList: List<ProductBrand>) {
+                this@ProductBrandListFragment.productBrandList.clear()
+                this@ProductBrandListFragment.productBrandList.addAll(productBrandList)
+                prepareRecyclerviewLayout()
+                createBrandListAdapter()
+                swipeRefreshLayout.isRefreshing = false
+            }
+
+            override fun fail(throwable: Throwable) {
+                swipeRefreshLayout.isRefreshing = false
+                var title:String = getString(R.string.error)
+                var subtitle:String = getString(R.string.problem_server_connection)
+                var drawable:Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
+
+                if (throwable is IOException) {
+                    title = getString(R.string.check_your_conection)
+                    subtitle =  getString(R.string.try_again_when_online)
+                    drawable  = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
+                }
+
+                if (this@ProductBrandListFragment.productBrandList.size == 0) {
+                    prepareFeedbackLayout(title,
+                            subtitle,
+                            drawable)
+                }else{
+                    view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+                }
+
+            }
+        })
+
+
+    }
+
+    private fun prepareLoadingLayout() {
+        feedbackLayout.visibility = View.VISIBLE
+        feedbackTitleTXV.visibility = View.VISIBLE
+        feedbackTitleTXV.text = context?.getText(R.string.loading_product_brand_list)
+        feedbackIMG.visibility = View.GONE
+        feedbackSubtitleTXV.visibility = View.GONE
+        tryAgainBTN.visibility = View.GONE
+        mainLayout.visibility = View.GONE
+    }
+
+    private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
+        feedbackLayout.visibility = View.VISIBLE
+        feedbackTitleTXV.visibility = View.VISIBLE
+        feedbackTitleTXV.text = title
+        feedbackSubtitleTXV.visibility = View.VISIBLE
+        feedbackSubtitleTXV.text = subtitle
+
+        drawable?.let {
+            feedbackIMG.visibility = View.VISIBLE
+            feedbackIMG.setImageDrawable(drawable)
+        }
+        tryAgainBTN.visibility = View.VISIBLE
+        mainLayout.visibility = View.GONE
+    }
+
+    private fun prepareRecyclerviewLayout() {
+        feedbackTitleTXV.visibility = View.GONE
+        feedbackIMG.visibility = View.GONE
+        feedbackSubtitleTXV.visibility = View.GONE
+        tryAgainBTN.visibility = View.GONE
+        mainLayout.visibility = View.VISIBLE
     }
 
     override fun onRefresh() {
-        delay()
+        if (this@ProductBrandListFragment.productBrandList.size == 0)
+            prepareLoadingLayout()
+
+        getBrandList()
     }
 
-    private fun delay() {
-        mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
-    }
-
-    internal val mRunnable: Runnable = Runnable {
-        if ((activity?.isFinishing)==false) {
-            getBrandList();
-        }
-    }
-
-    override fun brandSelected(brand: ProductBrand) {
-        mCallback?.brandSelected(brand)
-    }
 
 }
 

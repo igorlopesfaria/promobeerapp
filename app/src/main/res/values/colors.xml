@@ -5,11 +5,13 @@
     <color name="colorAccent">#be1623</color>
     <color name="colorPrimaryLight">#e20f1d</color>
 
-    <color name="title_text">#47211e</color>
-    <color name="body_text">#47211e</color>
+    <color name="title_text">#606060</color>
+    <color name="body_text">#808080</color>
     <color name="highlight_text">#ad131f</color>
 
     <color name="line_list">#9b9b9b</color>
+    <color name="background_item_normal">#DEDEDE</color>
+    <color name="background_item_selected">#D0D0D0</color>
 
     <color name="edit_text">#ccc9c9</color>
     <integer-array name="progressbar_colors">
@@ -17,7 +19,6 @@
         <item>@color/title_text</item>
         <item>@color/colorPrimaryLight</item>
         <item>@color/title_text</item>
-
     </integer-array>
 
 </resources>

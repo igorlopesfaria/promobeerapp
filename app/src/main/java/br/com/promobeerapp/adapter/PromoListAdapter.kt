@@ -23,26 +23,27 @@ class PromoListAdapter(
         val productIMG = itemView.productIMG
         val priceTXV = itemView.priceTXV
         val productSizeTXV = itemView.productSizeTXV
-        val productNameTXV =itemView.productNameTXV
+        val productNameTXV = itemView.productNameTXV
         val publishedDateTXV = itemView.publishedDateTXV
         val neighbhoodTXV = itemView.neighbhoodTXV
 
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val promoItem = promoList[position]
-        holder?.let {
-            Picasso.with(context)
-                    .load(promoItem?.product?.imagePath)
-                    .placeholder(R.drawable.ic_bottle_beer)
-                    .into(it.productIMG);
-            it.productNameTXV.text = promoItem?.product?.productBrand?.name + " " +
-                    promoItem?.product?.productType?.name
-            it.priceTXV.text = promoItem?.price
-            it.productSizeTXV.text = promoItem?.product?.productSize?.material+": "+promoItem?.product?.productSize?.value
-            it.publishedDateTXV.text = context?.getText(R.string.publishedDate) as String+" "+promoItem?.publishedDate
-            it.neighbhoodTXV.text = promoItem?.address?.neighborhood
 
-        }
+        Picasso.with(context)
+                .load(promoItem?.product?.imagePath)
+                .placeholder(R.drawable.ic_bottle_beer)
+                .into(holder.productIMG);
+        holder.productNameTXV.text = promoItem?.product?.productBrand?.name + " " +
+                promoItem?.product?.productType?.name
+        holder.priceTXV.text = promoItem?.price
+        holder.productSizeTXV.text = promoItem?.product?.productSize?.material + ": " + promoItem?.product?.productSize?.value
+        holder.publishedDateTXV.text = context?.getText(R.string.publishedDate) as String + " " + promoItem?.publishedDate
+        holder.neighbhoodTXV.text = promoItem?.address?.neighborhood
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,7 +52,7 @@ class PromoListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return promoList.size
+        return promoList?.size
     }
 
     fun getCount(): Int {

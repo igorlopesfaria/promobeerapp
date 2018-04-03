@@ -5,13 +5,11 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import br.com.promobeerapp.fragment.PromoListFragment
-import br.com.promobeerapp.fragment.listener.OnSelectProductBrandListListener
 import br.com.promobeerapp.model.ProductBrand
 import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.view.View
 import br.com.promobeerapp.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
@@ -19,7 +17,7 @@ import android.content.Intent
 
 
 
-class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var user: User
@@ -101,9 +99,7 @@ class MainActivity : AppCompatActivity(), OnSelectProductBrandListListener, Navi
 
 
 
-    override fun brandSelected(brand: ProductBrand) {
-//        val fragment = fragmentManager.findFragmentById(R.id.main_container_fragment)//if you specify your fragment in xml
-    }
+
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import br.com.promobeerapp.MainActivity
 
 import br.com.promobeerapp.R
-import br.com.promobeerapp.fragment.listener.OnSelectProductBrandListListener
 import br.com.promobeerapp.model.ProductBrand
 import kotlinx.android.synthetic.main.fragment_promo_register.*
 
@@ -35,12 +34,6 @@ class PromoRegisterFragment : Fragment() {
             if (activity is MainActivity)
                 (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
         }
-    }
-
-
-
-    fun setBrand(brand: ProductBrand) {
-        brandTXV.setText(brand.name)
     }
 
 }

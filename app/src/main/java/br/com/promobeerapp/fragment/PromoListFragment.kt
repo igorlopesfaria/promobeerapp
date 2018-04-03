@@ -56,7 +56,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
         swipeRefreshLayout.setOnRefreshListener(this)
         floatingActionButton.setOnClickListener {
             if (activity is MainActivity )
-                (activity as MainActivity).changeFragment(PromoRegisterFragment.newInstance(), true)
+                (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
         }
 
         tryAgainBTN.setOnClickListener{

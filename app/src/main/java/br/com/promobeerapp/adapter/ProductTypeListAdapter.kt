@@ -17,39 +17,36 @@ class ProductTypeListAdapter(
         val productTypeList: List<ProductType>,
         val context: Context?) : Adapter<ProductTypeListAdapter.ViewHolder>() {
 
-    var lastItemSelected:Int = -1
+    var lastItemSelected: Int = -1
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val descriptionTXV = itemView.descriptionTXV
         val containerView = itemView.containerView
         val checkIMG = itemView.checkIMG
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productTypeItem = productTypeList[position]
-        holder?.let {
-            it.descriptionTXV?.text = productTypeItem.name
-            it.containerView?.setOnClickListener {
+        holder.descriptionTXV?.text = productTypeItem.name
+        holder.containerView?.setOnClickListener {
 
+            holder.checkIMG.visibility = View.VISIBLE
+            productTypeItem.checked = true
 
-                holder.checkIMG.visibility = View.VISIBLE
-                productTypeItem.checked = true
-
-                if (lastItemSelected>=0 && lastItemSelected!=position) {
-                    productTypeList[lastItemSelected].checked = !productTypeList[lastItemSelected].checked
-                    notifyItemChanged(lastItemSelected)
-                }
-                lastItemSelected = position
+            if (lastItemSelected >= 0 && lastItemSelected != position) {
+                productTypeList[lastItemSelected].checked = !productTypeList[lastItemSelected].checked
+                notifyItemChanged(lastItemSelected)
             }
-
-            if (productTypeItem.checked)
-                it.checkIMG.visibility =View.VISIBLE
-            else
-                it.checkIMG.visibility =View.GONE
-
-            
+            lastItemSelected = position
         }
 
-    }
+        if (productTypeItem.checked)
+            holder.checkIMG.visibility = View.VISIBLE
+        else
+            holder.checkIMG.visibility = View.GONE
 
+
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

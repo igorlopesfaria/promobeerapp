@@ -28,22 +28,22 @@ class ProductTypeListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productTypeItem = productTypeList[position]
         holder.descriptionTXV?.text = productTypeItem.name
-        holder.containerView?.setOnClickListener {
+//        holder.containerView?.setOnClickListener {
+//
+//            holder.checkIMG.visibility = View.VISIBLE
+//            productTypeItem.checked = true
+//
+//            if (lastItemSelected >= 0 && lastItemSelected != position) {
+//                productTypeList[lastItemSelected].checked = !productTypeList[lastItemSelected].checked
+//                notifyItemChanged(lastItemSelected)
+//            }
+//            lastItemSelected = position
+//        }
 
-            holder.checkIMG.visibility = View.VISIBLE
-            productTypeItem.checked = true
-
-            if (lastItemSelected >= 0 && lastItemSelected != position) {
-                productTypeList[lastItemSelected].checked = !productTypeList[lastItemSelected].checked
-                notifyItemChanged(lastItemSelected)
-            }
-            lastItemSelected = position
-        }
-
-        if (productTypeItem.checked)
-            holder.checkIMG.visibility = View.VISIBLE
-        else
-            holder.checkIMG.visibility = View.GONE
+//        if (productTypeItem.checked)
+//            holder.checkIMG.visibility = View.VISIBLE
+//        else
+//            holder.checkIMG.visibility = View.GONE
 
 
     }

@@ -40,9 +40,11 @@
     <string name="request_client_id">991438331-bv1ludgpm49oqdh7tb7q05pcclo5snc6.apps.googleusercontent.com</string>
     <string name="firebase_app_id">promobeerapp-8bc90</string>
     <string name="register_please">Para cadastrar uma promoção, por favor se registre.</string>
-    <string name="choice_product_brand">ESCOLHA A MARCA EM PROMOÇÃO</string>
+    <string name="choice_product_brand">ESCOLHA A MARCA DA CERVEJA</string>
+    <string name="choice_product_type">ESCOLHA O TIPO DA CERVEJA.</string>
+    <string name="choice_product_size">ESCOLHA O TAMANHO DA CERVEJA.</string>
     <string name="loading_product_brand_list">Carregando marcas..</string>
-    <string name="problem_server_connection">Foi encontrado um problema. Tente novamente mais tarde.</string>
+    <string name="problem_server_connection">Sua requisição não foi processada. Tente novamente mais tarde.</string>
     <string name="error">Erro.</string>
 
 </resources>

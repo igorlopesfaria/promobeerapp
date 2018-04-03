@@ -10,16 +10,19 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import br.com.promobeerapp.MainActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductBrandListAdapter
 import br.com.promobeerapp.connection.ProductWebClient
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
+import br.com.promobeerapp.fragment.listener.OnItemSelectedListener
 import br.com.promobeerapp.model.ProductBrand
 import kotlinx.android.synthetic.main.fragment_product_brand_list.*
 import java.io.IOException
 
 
-class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnItemSelectedListener<ProductBrand> {
+
     private val productBrandList: MutableList<ProductBrand> = mutableListOf()
 
     companion object {
@@ -133,6 +136,9 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
         getBrandList()
     }
 
+    override fun onItemSelected(productBrand: ProductBrand) {
+        (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(productBrand), true)
+    }
 
 }
 

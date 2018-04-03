@@ -10,6 +10,6 @@ class RetrofitConfig {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    fun productBrandService(): ProductService  = retrofit.create(ProductService::class.java)
+    fun productService(): ProductService  = retrofit.create(ProductService::class.java)
 
 }

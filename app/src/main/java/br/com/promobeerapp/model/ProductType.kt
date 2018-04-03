@@ -6,4 +6,4 @@ package br.com.promobeerapp.model
 data class ProductType(var id: Long,
                        var name: String,
                        var imagePath:String,
-                       var checked:Boolean = false)
+                       var selected:Boolean = false)

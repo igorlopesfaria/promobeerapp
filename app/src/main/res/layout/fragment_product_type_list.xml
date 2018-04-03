@@ -8,10 +8,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/productTypeListRecyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:id="@+id/mainLayout"
+            android:padding="@dimen/layout_margin_normal"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/highlight_text"
+                android:textSize="@dimen/textsize_big"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:text="@string/choice_product_type"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/productTypeListRecyclerView"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/feedbackLayout"
+            android:layout_margin="@dimen/textsize_big"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/feedbackIMG"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_offline"/>
+            <TextView
+                android:id="@+id/feedbackTitleTXV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/title_text"
+                android:textSize="@dimen/textsize_big"
+                android:text="@string/check_your_conection"/>
+            <TextView
+                android:id="@+id/feedbackSubtitleTXV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/line_list"
+                android:layout_marginTop="@dimen/layout_margin_normal"
+                android:textSize="@dimen/textsize_normal"
+                android:text="@string/try_again_when_online"/>
+            <Button
+                android:id="@+id/tryAgainBTN"
+                android:layout_width="180dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="@dimen/layout_margin_big"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@color/highlight_text"
+                android:textSize="@dimen/textsize_big"
+                android:text="@string/try_again"/>
+
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

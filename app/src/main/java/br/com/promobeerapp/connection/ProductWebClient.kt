@@ -1,8 +1,8 @@
 package br.com.promobeerapp.connection
 
-import android.util.Log
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
 import br.com.promobeerapp.model.ProductBrand
+import br.com.promobeerapp.model.ProductSize
 import br.com.promobeerapp.model.ProductType
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,8 +34,8 @@ class ProductWebClient {
     }
 
 
-    fun listTypeByBrandId(productBrand: ProductBrand, callbackServiceResponse: CallbackServiceResponse<List<ProductType>>) {
-        val call = RetrofitConfig().productService().listTypeByBrandId(productBrand.id)
+    fun listTypeByFilter(productBrand: ProductBrand, callbackServiceResponse: CallbackServiceResponse<List<ProductType>>) {
+        val call = RetrofitConfig().productService().listTypeByFilter(productBrand.id)
 
         call.enqueue(object : Callback<RestResponse<List<ProductType>>?> {
 
@@ -47,6 +47,30 @@ class ProductWebClient {
                                     response: Response<RestResponse<List<ProductType>>?>?) {
                 response?.body()?.let {
                     val restResponse: RestResponse<List<ProductType>> = it
+                    if (restResponse.data != null)
+                        callbackServiceResponse.success(restResponse.data!!)
+                }
+
+            }
+
+        })
+
+    }
+
+
+    fun listSizeByFilter(productBrand: ProductBrand, productType: ProductType, callbackServiceResponse: CallbackServiceResponse<List<ProductSize>>) {
+        val call = RetrofitConfig().productService().listSizeByFilter(productBrand.id, productType.id)
+
+        call.enqueue(object : Callback<RestResponse<List<ProductSize>>?> {
+
+            override fun onFailure(call: Call<RestResponse<List<ProductSize>>?>?, t: Throwable?) {
+                callbackServiceResponse.fail(t!!)
+            }
+
+            override fun onResponse(call: Call<RestResponse<List<ProductSize>>?>?,
+                                    response: Response<RestResponse<List<ProductSize>>?>?) {
+                response?.body()?.let {
+                    val restResponse: RestResponse<List<ProductSize>> = it
                     if (restResponse.data != null)
                         callbackServiceResponse.success(restResponse.data!!)
                 }

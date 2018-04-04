@@ -56,7 +56,9 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         swipeRefreshLayout.setOnRefreshListener(this)
         productBrand= arguments?.getSerializable(ARG_PRODUCT_BRAND) as ProductBrand?
 
-        onRefresh()
+        swipeRefreshLayout.isRefreshing = true
+        prepareLoadingLayout()
+        getTypeList()
 
         tryAgainBTN.setOnClickListener {
             swipeRefreshLayout.isRefreshing = true;
@@ -69,14 +71,14 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     private fun createProductTypeListAdapter(){
         productTypeListRecyclerView.layoutManager = LinearLayoutManager(context)
-        productTypeListRecyclerView.adapter = ProductTypeListAdapter(productTypeList, context)
+        productTypeListRecyclerView.adapter = ProductTypeListAdapter(productTypeList, context, this)
 
     }
 
     private fun getTypeList() {
 
         productBrand?.let {
-            ProductWebClient().listTypeByBrandId(it, object : CallbackServiceResponse<List<ProductType>> {
+            ProductWebClient().listTypeByFilter(it, object : CallbackServiceResponse<List<ProductType>> {
                 override fun success(productTypeList: List<ProductType>) {
                     this@ProductTypeListFragment.productTypeList.clear()
                     this@ProductTypeListFragment.productTypeList.addAll(productTypeList)
@@ -114,7 +116,7 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     private fun prepareLoadingLayout() {
         feedbackLayout.visibility = View.VISIBLE
         feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = context?.getText(R.string.loading_product_brand_list)
+        feedbackTitleTXV.text = context?.getText(R.string.loading_product_type_list)
         feedbackIMG.visibility = View.GONE
         feedbackSubtitleTXV.visibility = View.GONE
         tryAgainBTN.visibility = View.GONE
@@ -152,7 +154,7 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 
     override fun onItemSelected(productType: ProductType) {
-//        (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productType), true)
+        (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType), true)
     }
 
 }

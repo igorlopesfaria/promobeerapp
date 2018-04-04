@@ -31,6 +31,9 @@
     <string name="try_again_when_online">Tente novamente quando tiver online</string>
     <string name="try_again">TENTAR NOVAMENTE</string>
     <string name="loading_promo_list">Carregando Promoções...</string>
+    <string name="loading_product_size_list">Carregando tamanhos da cerveja...</string>
+    <string name="loading_product_type_list">Carregando tipos de cerveja...</string>
+    <string name="loading_product_brand_list">Carregando marcas de cerveja...</string>
     <string name="no_promo_found">Nenhuma promoção foi encontrada.</string>
     <string name="try_again_later">Verifique os filtros aplicados.</string>
     <string name="facebook_app_id">2124105444297210</string>
@@ -43,7 +46,6 @@
     <string name="choice_product_brand">ESCOLHA A MARCA DA CERVEJA</string>
     <string name="choice_product_type">ESCOLHA O TIPO DA CERVEJA.</string>
     <string name="choice_product_size">ESCOLHA O TAMANHO DA CERVEJA.</string>
-    <string name="loading_product_brand_list">Carregando marcas..</string>
     <string name="problem_server_connection">Sua requisição não foi processada. Tente novamente mais tarde.</string>
     <string name="error">Erro.</string>
 

@@ -36,6 +36,8 @@
             android:layout_height="match_parent"
             android:id="@+id/feedbackLayout"
             android:layout_margin="@dimen/textsize_big"
+            android:visibility="gone"
+
             android:orientation="vertical"
             android:gravity="center">
             <ImageView

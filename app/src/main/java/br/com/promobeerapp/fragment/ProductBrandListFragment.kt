@@ -42,8 +42,11 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
+
         swipeRefreshLayout.isRefreshing = true
-        onRefresh()
+        prepareLoadingLayout()
+        getBrandList()
+
 
         tryAgainBTN.setOnClickListener {
             swipeRefreshLayout.isRefreshing = true;
@@ -54,6 +57,7 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
 
 
     private fun createBrandListAdapter() {
+        prepareRecyclerviewLayout()
         brandListRecyclerView.layoutManager = GridLayoutManager(context, 2)
         brandListRecyclerView.adapter = ProductBrandListAdapter(productBrandList, context, this)
 
@@ -65,7 +69,6 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
             override fun success(productBrandList: List<ProductBrand>) {
                 this@ProductBrandListFragment.productBrandList.clear()
                 this@ProductBrandListFragment.productBrandList.addAll(productBrandList)
-                prepareRecyclerviewLayout()
                 createBrandListAdapter()
                 swipeRefreshLayout.isRefreshing = false
             }

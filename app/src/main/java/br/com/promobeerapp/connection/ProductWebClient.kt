@@ -1,6 +1,8 @@
 package br.com.promobeerapp.connection
 
+import android.util.Log
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
+import br.com.promobeerapp.model.Product
 import br.com.promobeerapp.model.ProductBrand
 import br.com.promobeerapp.model.ProductSize
 import br.com.promobeerapp.model.ProductType
@@ -79,5 +81,23 @@ class ProductWebClient {
 
         })
 
+    }
+
+    fun listByFilter(productBrand: ProductBrand, productType: ProductType, productSize: ProductSize, callbackServiceResponse: CallbackServiceResponse<List<Product>>) {
+        val call = RetrofitConfig().productService().listByFilter(productBrand.id, productType.id, productSize.id)
+
+        call.enqueue(object : Callback<RestResponse<List<Product>>?> {
+            override fun onFailure(call: Call<RestResponse<List<Product>>?>?, t: Throwable?) {
+                callbackServiceResponse.fail(t!!)
+            }
+
+            override fun onResponse(call: Call<RestResponse<List<Product>>?>?, response: Response<RestResponse<List<Product>>?>?) {
+                response?.body()?.let {
+                    val restResponse: RestResponse<List<Product>> = it
+                    if (restResponse.data != null)
+                        callbackServiceResponse.success(restResponse.data!!)
+                }
+            }
+        })
     }
 }

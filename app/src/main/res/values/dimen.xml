@@ -18,13 +18,17 @@ limitations under the License.
 <resources>
     <dimen name="action_button_min_width">56dp</dimen>
     <dimen name="indeterminate_progress_size">32dp</dimen>
+    <dimen name="layout_margin_extra_big">16dp</dimen>
 
     <dimen name="layout_margin_big">12dp</dimen>
     <dimen name="layout_margin_normal">6dp</dimen>
     <dimen name="layout_margin_small">2dp</dimen>
+    <dimen name="textsize_extra_big">20sp</dimen>
     <dimen name="textsize_big">16sp</dimen>
     <dimen name="textsize_normal">13sp</dimen>
     <dimen name="textsize_small">10sp</dimen>
+    <dimen name="textsize_smallest">8sp</dimen>
+
     <dimen name="layout_default_margin">8dp</dimen>
 
     <dimen name="line_small">1dp</dimen>
@@ -32,10 +36,17 @@ limitations under the License.
     <dimen name="line_big">3dp</dimen>
 
     <dimen name="min_row_height">49dp</dimen>
-    <dimen name="combo_normal_height">49dp</dimen>
+    <dimen name="combo_normal_height">44dp</dimen>
     <dimen name="edittext_big_height">75dp</dimen>
 
     <dimen name="button_normal_height">49dp</dimen>
+
+
+    <dimen name="elevation_toolbar">4dp</dimen>
+    <dimen name="edittext_normal_height">42dp</dimen>
+    <dimen name="nav_header_height">180dp</dimen>
+    <dimen name="profile_width">75dp</dimen>
+    <dimen name="profile_height">75dp</dimen>
 
 </resources>
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_default_round_border"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:layout_margin="@dimen/layout_default_margin"
+    android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/descriptionTXV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/body_text"
+            android:textSize="@dimen/textsize_small"
+            android:padding="@dimen/layout_margin_normal"
+            tools:text="Titulo" />
+    <TextView
+        android:id="@+id/detailTXV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/body_text"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="@dimen/textsize_smallest"
+        android:layout_marginTop="-12dp"
+        android:padding="@dimen/layout_margin_normal"
+        tools:text="Rua Tomaz Gonzaga" />
+
+
+
+</LinearLayout>
+

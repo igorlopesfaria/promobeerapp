@@ -1,8 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="elevation_toolbar">4dp</dimen>
-    <dimen name="edittext_normal_height">42dp</dimen>
-    <dimen name="nav_header_height">180dp</dimen>
-    <dimen name="profile_width">75dp</dimen>
-    <dimen name="profile_height">75dp</dimen>
 </resources>

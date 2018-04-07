@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/mainLayout"
             android:padding="@dimen/layout_margin_normal"
+            android:visibility="gone"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -23,68 +23,12 @@
                 android:textColor="@color/highlight_text"
                 android:textSize="@dimen/textsize_big"
                 android:layout_marginTop="@dimen/layout_margin_big"
-                android:text="@string/choice_product_material"/>
-            <LinearLayout
+                android:text="@string/choice_supermarket"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/addressListRecyclerView"
+                android:layout_marginTop="@dimen/layout_margin_big"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/layout_margin_normal"
-                android:orientation="horizontal"
-                >
-                <ImageButton
-                    android:id="@+id/size1IMG"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:scaleType="center"
-                    android:layout_height="95dp"
-                    android:background="@drawable/card_default"
-                    android:layout_marginEnd="@dimen/layout_margin_normal"
-                    android:src="@drawable/ic_bottle_beer_big"
-                     />
-                <ImageButton
-                    android:id="@+id/size2IMG"
-                    android:layout_weight="1"
-                    android:background="@drawable/card_default"
-                    android:layout_width="wrap_content"
-                    android:scaleType="center"
-                    android:layout_marginStart="@dimen/layout_margin_normal"
-                    android:layout_height="95dp"
-                    android:src="@drawable/ic_can_beer_big" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/highlight_text"
-                    android:textSize="@dimen/textsize_big"
-                    android:layout_marginTop="@dimen/layout_margin_big"
-                    android:text="@string/choice_product_size"/>
-                <ImageView
-                    android:layout_marginTop="@dimen/layout_margin_big"
-                    android:src="@color/line_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp" />
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/productSizeListRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-            <TextView
-                android:id="@+id/feedbackSizeTitleTXV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="@color/title_text"
-                android:textSize="@dimen/textsize_big"
-                android:text="@string/check_your_conection"/>
-
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,9 +36,8 @@
             android:layout_height="match_parent"
             android:id="@+id/feedbackLayout"
             android:layout_margin="@dimen/textsize_big"
-            android:orientation="vertical"
             android:visibility="gone"
-
+            android:orientation="vertical"
             android:gravity="center">
             <ImageView
                 android:id="@+id/feedbackIMG"
@@ -132,4 +75,6 @@
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
+
+
 

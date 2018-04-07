@@ -2,7 +2,6 @@ package br.com.promobeerapp.fragment
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -11,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import br.com.promobeerapp.MainActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductSizeListAdapter
 import br.com.promobeerapp.connection.ProductWebClient
@@ -26,6 +26,9 @@ import java.io.IOException
 class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnItemSelectedListener<ProductSize> {
 
     private val productSizeList: MutableList<ProductSize> = mutableListOf()
+
+    private val type1SizeList: MutableList<ProductSize> = mutableListOf()
+    private val type2SizeList: MutableList<ProductSize> = mutableListOf()
 
 
     private var productBrand: ProductBrand? = null
@@ -56,8 +59,8 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout?.setRefreshing(true);
+        swipeRefreshLayout?.setOnRefreshListener(this)
         productBrand= arguments?.getSerializable(ARG_PRODUCT_BRAND) as ProductBrand?
         productType= arguments?.getSerializable(ARG_PRODUCT_TYPE) as ProductType?
 
@@ -66,17 +69,52 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         getSizeList()
 
         tryAgainBTN.setOnClickListener {
-            swipeRefreshLayout.isRefreshing = true;
+            swipeRefreshLayout?.isRefreshing = true;
             onRefresh()
+        }
+
+        size1IMG.setOnClickListener{
+            filterSizeByMaterial()
+            prepareRecyclerviewLayout();
+            if(type1SizeList.size>0)
+                createProductSizeListAdapter(type1SizeList)
+            else
+                prepareFeedbackSizeLayout(getString(R.string.no_product_with_this_size))
+
+        }
+
+        size2IMG.setOnClickListener{
+            filterSizeByMaterial()
+            prepareRecyclerviewLayout();
+            if(type2SizeList.size>0)
+                createProductSizeListAdapter(type2SizeList)
+            else
+                prepareFeedbackSizeLayout(getString(R.string.no_product_with_this_size))
+
         }
 
 
     }
 
 
-    private fun createProductSizeListAdapter(){
-        productSizeListRecyclerView.layoutManager = LinearLayoutManager(context)
-        productSizeListRecyclerView.adapter = ProductSizeListAdapter(productSizeList, context,  this)
+    private fun filterSizeByMaterial() {
+        var i = 0
+        type1SizeList.clear()
+        type2SizeList.clear()
+        while (i < productSizeList.size) {
+            if(productSizeList[i].material?.equals("Lata", true)){
+                type2SizeList.add(productSizeList[i])
+            }else{
+                type1SizeList.add(productSizeList[i])
+            }
+            i++
+        }
+    }
+
+
+    private fun createProductSizeListAdapter(typeCorrectSizeList: MutableList<ProductSize>) {
+        productSizeListRecyclerView?.layoutManager = LinearLayoutManager(context)
+        productSizeListRecyclerView?.adapter = ProductSizeListAdapter(typeCorrectSizeList, context,  this)
 
     }
 
@@ -89,9 +127,8 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
                     override fun success(productSizeList: List<ProductSize>) {
                         this@ProductSizeListFragment.productSizeList.clear()
                         this@ProductSizeListFragment.productSizeList.addAll(productSizeList)
-                        prepareRecyclerviewLayout()
-                        createProductSizeListAdapter()
-                        swipeRefreshLayout.isRefreshing = false
+                        prepareFilterLayout()
+                        swipeRefreshLayout?.isRefreshing = false
                     }
 
                     override fun fail(throwable: Throwable) {
@@ -123,37 +160,63 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     }
     private fun prepareLoadingLayout() {
-        feedbackLayout.visibility = View.VISIBLE
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = context?.getText(R.string.loading_product_size_list)
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        mainLayout.visibility = View.GONE
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = context?.getText(R.string.loading_product_size_list)
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.GONE
     }
 
     private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
-        feedbackLayout.visibility = View.VISIBLE
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = title
-        feedbackSubtitleTXV.visibility = View.VISIBLE
-        feedbackSubtitleTXV.text = subtitle
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = title
+        feedbackSubtitleTXV?.visibility = View.VISIBLE
+        feedbackSubtitleTXV?.text = subtitle
 
         drawable?.let {
-            feedbackIMG.visibility = View.VISIBLE
-            feedbackIMG.setImageDrawable(drawable)
+            feedbackIMG?.visibility = View.VISIBLE
+            feedbackIMG?.setImageDrawable(drawable)
         }
-        tryAgainBTN.visibility = View.VISIBLE
-        mainLayout.visibility = View.GONE
+        tryAgainBTN?.visibility = View.VISIBLE
+        mainLayout?.visibility = View.GONE
+    }
+
+    private fun prepareFilterLayout() {
+        feedbackTitleTXV?.visibility = View.GONE
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.VISIBLE
+        listView?.visibility = View.GONE
+        feedbackSizeTitleTXV?.visibility = View.GONE
+
     }
 
     private fun prepareRecyclerviewLayout() {
-        feedbackTitleTXV.visibility = View.GONE
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        mainLayout.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.GONE
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.VISIBLE
+        listView?.visibility = View.VISIBLE
+        feedbackSizeTitleTXV?.visibility = View.GONE
     }
+
+    private fun prepareFeedbackSizeLayout(msg: String) {
+        feedbackTitleTXV?.visibility = View.GONE
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.VISIBLE
+        listView?.visibility = View.GONE
+        feedbackSizeTitleTXV?.visibility = View.VISIBLE
+        feedbackSizeTitleTXV.text = msg
+
+    }
+
     override fun onRefresh() {
         if (this@ProductSizeListFragment.productSizeList.size == 0)
             prepareLoadingLayout()
@@ -163,7 +226,7 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 
     override fun onItemSelected(productSize: ProductSize) {
-//        (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productSize), true)
+        (activity as MainActivity).changeFragment(PromoRegisterFragment.newInstance(productBrand, productType ,productSize), true)
     }
 
 }

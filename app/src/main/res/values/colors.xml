@@ -20,5 +20,7 @@
         <item>@color/colorPrimaryLight</item>
         <item>@color/title_text</item>
     </integer-array>
+    <color name="button_normal">#f8ae0f</color>
+    <color name="button_pressed">#e4c15a</color>
 
 </resources>

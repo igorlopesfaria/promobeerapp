@@ -21,12 +21,11 @@ class ProductTypeListAdapter(
         val context: Context?,
         val fragment: Fragment) : Adapter<ProductTypeListAdapter.ViewHolder>() {
 
-    var lastItemSelected: Int = -1
+//    var lastItemSelected: Int = -1
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val descriptionTXV = itemView.descriptionTXV
         val containerView = itemView.containerView
-        val checkIMG = itemView.checkIMG
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -58,7 +57,7 @@ class ProductTypeListAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_product_size_list, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_product_type_list, parent, false)
         return ViewHolder(view)
     }
 

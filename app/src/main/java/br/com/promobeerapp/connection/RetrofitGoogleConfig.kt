@@ -3,14 +3,13 @@ package br.com.promobeerapp.connection
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitConfig {
+class RetrofitGoogleConfig {
 
     private val retrofit = Retrofit.Builder()
-            .baseUrl("http://promobeer.pazzaro.com.br/api/")
+            .baseUrl("https://maps.googleapis.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    fun productService(): ProductService  = retrofit.create(ProductService::class.java)
-    fun promoService(): PromoService  = retrofit.create(PromoService::class.java)
+    fun googleService(): GoogleService  = retrofit.create(GoogleService::class.java)
 
 }

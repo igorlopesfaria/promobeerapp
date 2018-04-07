@@ -3,6 +3,7 @@ package br.com.promobeerapp.fragment
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -12,14 +13,17 @@ import android.view.*
 import android.widget.Toast
 import br.com.promobeerapp.MainActivity
 import br.com.promobeerapp.R
-import br.com.promobeerapp.adapter.CustomLoadingListItemCreator
 import br.com.promobeerapp.adapter.PromoListAdapter
-import br.com.promobeerapp.model.*
+import br.com.promobeerapp.connection.PromoWebClient
+import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
+import br.com.promobeerapp.fragment.listener.OnItemSelectedListener
+import br.com.promobeerapp.model.Promo
 import com.paginate.Paginate
 import kotlinx.android.synthetic.main.fragment_promo_list.*
+import java.io.IOException
 
 
-class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
+class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnItemSelectedListener<Promo>{
 
 
     var promoList: MutableList<Promo> = mutableListOf()
@@ -55,8 +59,10 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
         floatingActionButton.setOnClickListener {
-            if (activity is MainActivity )
-                (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
+
+            if((activity as MainActivity).verifyPermission())
+                if (activity is MainActivity )
+                    (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
         }
 
         tryAgainBTN.setOnClickListener{
@@ -69,36 +75,49 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
                     ContextCompat.getDrawable(it, R.drawable.ic_offline)
                 })
 
+        getPromoList()
+
     }
 
     private fun prepareLoadingLayout() {
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = context?.getText(R.string.loading_promo_list)
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        promoListRecyclerView.visibility = View.GONE
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = context?.getText(R.string.loading_product_type_list)
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
     }
-    private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
 
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = title
-        feedbackSubtitleTXV.visibility = View.VISIBLE
-        feedbackSubtitleTXV.text = subtitle
+    private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = title
+        feedbackSubtitleTXV?.visibility = View.VISIBLE
+        feedbackSubtitleTXV?.text = subtitle
 
         drawable?.let {
-            feedbackIMG.visibility = View.VISIBLE
-            feedbackIMG.setImageDrawable(drawable)
+            feedbackIMG?.visibility = View.VISIBLE
+            feedbackIMG?.setImageDrawable(drawable)
         }
-        tryAgainBTN.visibility = View.VISIBLE
-        promoListRecyclerView.visibility = View.GONE
+        tryAgainBTN?.visibility = View.VISIBLE
     }
+
     private fun prepareRecyclerviewLayout() {
-        feedbackTitleTXV.visibility = View.GONE
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        promoListRecyclerView.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.GONE
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+    }
+    override fun onRefresh() {
+        if (this@PromoListFragment.promoList.size == 0)
+            prepareLoadingLayout()
+
+        getPromoList()
+    }
+
+
+    override fun onItemSelected(promo: Promo) {
+//        (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType), true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater) {
@@ -139,7 +158,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
             // Load next page of data (e.g. network or database)
             Log.d("Paginate", "onLoadMore");
             loading = true
-            delayPagination()
+//            delayPagination()
         }
 
         override fun isLoading(): Boolean {
@@ -157,41 +176,41 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
 
 
     private fun populateMoreOneItem() {
-        var promoAuxList= listOf(
-                Promo(1,
-                        Product(1,
-                                ProductBrand(1, "Cerveja Eisenbahn", ""),
-                                ProductSize(3, "350ml", "Lata", ""),
-                                ProductType(2, "Pilsen Puro Malte", ""),
-                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(1,
-                        Product(1,
-                                ProductBrand(1, "Cerveja Eisenbahn", ""),
-                                ProductSize(3, "350ml", "Lata", ""),
-                                ProductType(2, "Pilsen Puro Malte", ""),
-                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"))
-        promoList.addAll(promoAuxList)
-        promoListAdapter?.notifyDataSetChanged()
-
-        loading = false
-        hasLoadedAllItems= true
-        paginate?.unbind()
+//        var promoAuxList= listOf(
+//                Promo(1,
+//                        Product(1,
+//                                ProductBrand(1, "Cerveja Eisenbahn", ""),
+//                                ProductSize(3, "350ml", "Lata", ""),
+//                                ProductType(2, "Pilsen Puro Malte", ""),
+//                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
+//                        Address("-12.990706",
+//                                "-38.473735",
+//                                "Extra - Brotas, Salvador - Bahia, Brasil",
+//                                "Brotas"),
+//                        "",
+//                        "R$ 1,90",
+//                        "18/03/18",
+//                        "16/03/18 - 10:00"),
+//                Promo(1,
+//                        Product(1,
+//                                ProductBrand(1, "Cerveja Eisenbahn", ""),
+//                                ProductSize(3, "350ml", "Lata", ""),
+//                                ProductType(2, "Pilsen Puro Malte", ""),
+//                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
+//                        Address("-12.990706",
+//                                "-38.473735",
+//                                "Extra - Brotas, Salvador - Bahia, Brasil",
+//                                "Brotas"),
+//                        "",
+//                        "R$ 1,90",
+//                        "18/03/18",
+//                        "16/03/18 - 10:00"))
+//        promoList.addAll(promoAuxList)
+//        promoListAdapter?.notifyDataSetChanged()
+//
+//        loading = false
+//        hasLoadedAllItems= true
+//        paginate?.unbind()
     }
 
     fun scrollMyListViewToBottom() {
@@ -201,200 +220,38 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener{
         })
     }
     private fun getPromoList() {
-        var aas = listOf(
-                Promo(1,
-                        Product(1,
-                                ProductBrand(1, "Cerveja Eisenbahn", ""),
-                                ProductSize(3, "350ml", "Lata", ""),
-                                ProductType(2, "Pilsen Puro Malte", ""),
-                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(2,
-                        Product(1,
-                                ProductBrand(1, "Cerveja Skol", ""),
-                                ProductSize(3, "269ml", "Lata", ""),
-                                ProductType(2, "Pilsen", ""),
-                                "https://static.carrefour.com.br/medias/sys_master/images/images/hf6/h63/h00/h00/9218294972446.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(3,
-                        Product(1,
-                                ProductBrand(1, "Cerveja Heineken", ""),
-                                ProductSize(3, "330ml", "Long Neck", ""),
-                                ProductType(2, "Pilsen", ""),
-                                "https://savegnago.vteximg.com.br/arquivos/ids/273281-240-240/figura-1frente.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(4,
-                        Product(1,
-                                ProductBrand(11, "Cerveja Proibida", ""),
-                                ProductSize(2, "330ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://savegnago.vteximg.com.br/arquivos/ids/281640-240-240/CERVEJA-PROIBIDA-330ML-PURO-MALTE-1.jpg"),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"),
-                Promo(5,
-                        Product(1,
-                                ProductBrand(4, "Cerveja Amstel", ""),
-                                ProductSize(3, "473ml", "Longneck", ""),
-                                ProductType(2, "Lager", ""),
-                                "https://superprix.vteximg.com.br/arquivos/ids/168453-600-600/Cerveja-Amstel-Lager-600ml.jpg\""),
-                        Address("-12.990706",
-                                "-38.473735",
-                                "Extra - Brotas, Salvador - Bahia, Brasil",
-                                "Brotas"),
-                        "",
-                        "R$ 1,90",
-                        "18/03/18",
-                        "16/03/18 - 10:00"))
+        PromoWebClient().list(object : CallbackServiceResponse<List<Promo>> {
+            override fun success(response: List<Promo>) {
+                    this@PromoListFragment.promoList.clear()
+                    this@PromoListFragment.promoList.addAll(promoList)
+                    prepareRecyclerviewLayout()
+                    createPromoListAdapter()
+                    swipeRefreshLayout?.isRefreshing = false
+                }
 
-        promoList.addAll(aas)
-        if(promoList.size>0){
-            prepareRecyclerviewLayout()
-            createPromoListAdapter()
-        }else{
-            prepareFeedbackLayout(activity?.getText(R.string.no_promo_found).toString(),
-                    activity?.getText(R.string.try_again_later).toString(),
-                    null)
-        }
-        swipeRefreshLayout?.setRefreshing(false);
-    }
+                override fun fail(throwable: Throwable) {
+                    swipeRefreshLayout.isRefreshing = false
+                    var title: String = getString(R.string.error)
+                    var subtitle: String = getString(R.string.problem_server_connection)
+                    var drawable: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
 
-    override fun onRefresh() {
-        delay()
-    }
+                    if (throwable is IOException) {
+                        title = getString(R.string.check_your_conection)
+                        subtitle = getString(R.string.try_again_when_online)
+                        drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
+                    }
 
-    private fun delay() {
-        if(promoList.size==0)
-            prepareLoadingLayout()
-        mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
-    }
+                    if (this@PromoListFragment.promoList.size == 0) {
+                        prepareFeedbackLayout(title,
+                                subtitle,
+                                drawable)
+                    } else {
+                        view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+                    }
 
-    internal val mRunnable: Runnable = Runnable {
-        if (activity?.isFinishing == false) {
-            getPromoList();
-        }
-    }
 
-    private fun delayPagination() {
-        mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnableItem, SPLASH_DELAY)
-    }
-
-    internal val mRunnableItem: Runnable = Runnable {
-        if (activity?.isFinishing == false) {
-            populateMoreOneItem();
-        }
+            }
+        })
     }
 
 }

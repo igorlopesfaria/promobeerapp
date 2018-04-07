@@ -1,5 +1,6 @@
 package br.com.promobeerapp.connection
 
+import br.com.promobeerapp.model.Product
 import br.com.promobeerapp.model.ProductBrand
 import br.com.promobeerapp.model.ProductSize
 import br.com.promobeerapp.model.ProductType
@@ -18,5 +19,10 @@ interface ProductService {
     @GET("sizes")
     fun listSizeByFilter(@Query("brand") idBrand:Long,
                           @Query("type") idType:Long) : Call<RestResponse<List<ProductSize>>>
+
+    @GET("products")
+    fun listByFilter(@Query("brand") idBrand:Long,
+                         @Query("type") idType:Long,
+                         @Query("size") idSize:Long) : Call<RestResponse<List<Product>>>
 
 }

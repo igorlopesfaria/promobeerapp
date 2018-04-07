@@ -58,8 +58,8 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
 
     private fun createBrandListAdapter() {
         prepareRecyclerviewLayout()
-        brandListRecyclerView.layoutManager = GridLayoutManager(context, 2)
-        brandListRecyclerView.adapter = ProductBrandListAdapter(productBrandList, context, this)
+        brandListRecyclerView?.layoutManager = GridLayoutManager(context, 2)
+        brandListRecyclerView?.adapter = ProductBrandListAdapter(productBrandList, context, this)
 
     }
 
@@ -70,7 +70,7 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
                 this@ProductBrandListFragment.productBrandList.clear()
                 this@ProductBrandListFragment.productBrandList.addAll(productBrandList)
                 createBrandListAdapter()
-                swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout?.isRefreshing = false
             }
 
             override fun fail(throwable: Throwable) {
@@ -100,36 +100,36 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     }
 
     private fun prepareLoadingLayout() {
-        feedbackLayout.visibility = View.VISIBLE
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = context?.getText(R.string.loading_product_brand_list)
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        mainLayout.visibility = View.GONE
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = context?.getText(R.string.loading_product_brand_list)
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.GONE
     }
 
     private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
-        feedbackLayout.visibility = View.VISIBLE
-        feedbackTitleTXV.visibility = View.VISIBLE
-        feedbackTitleTXV.text = title
-        feedbackSubtitleTXV.visibility = View.VISIBLE
-        feedbackSubtitleTXV.text = subtitle
+        feedbackLayout?.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.VISIBLE
+        feedbackTitleTXV?.text = title
+        feedbackSubtitleTXV?.visibility = View.VISIBLE
+        feedbackSubtitleTXV?.text = subtitle
 
         drawable?.let {
-            feedbackIMG.visibility = View.VISIBLE
-            feedbackIMG.setImageDrawable(drawable)
+            feedbackIMG?.visibility = View.VISIBLE
+            feedbackIMG?.setImageDrawable(drawable)
         }
-        tryAgainBTN.visibility = View.VISIBLE
-        mainLayout.visibility = View.GONE
+        tryAgainBTN?.visibility = View.VISIBLE
+        mainLayout?.visibility = View.GONE
     }
 
     private fun prepareRecyclerviewLayout() {
-        feedbackTitleTXV.visibility = View.GONE
-        feedbackIMG.visibility = View.GONE
-        feedbackSubtitleTXV.visibility = View.GONE
-        tryAgainBTN.visibility = View.GONE
-        mainLayout.visibility = View.VISIBLE
+        feedbackTitleTXV?.visibility = View.GONE
+        feedbackIMG?.visibility = View.GONE
+        feedbackSubtitleTXV?.visibility = View.GONE
+        tryAgainBTN?.visibility = View.GONE
+        mainLayout?.visibility = View.VISIBLE
     }
 
     override fun onRefresh() {

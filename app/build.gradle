@@ -13,6 +13,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -25,7 +27,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:mediarouter-v7:27.1.0'
     implementation 'com.android.support:animated-vector-drawable:27.1.0'
     implementation 'com.android.support:customtabs:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -44,13 +48,13 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.0.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.google.android.gms:play-services-auth:11.4.2'
+    implementation 'com.google.android.gms:play-services:11.4.2'
     implementation 'com.google.firebase:firebase-core:11.4.2'
     implementation 'com.google.firebase:firebase-messaging:11.4.2'
     implementation 'com.google.firebase:firebase-auth:11.4.2'
     implementation 'com.google.firebase:firebase-database:11.4.2'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-
     kapt 'android.arch.persistence.room:compiler:1.1.0-beta1'
     kapt 'com.android.databinding:compiler:3.1.0'
     testImplementation 'junit:junit:4.12'

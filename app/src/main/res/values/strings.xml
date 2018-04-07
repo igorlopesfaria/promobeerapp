@@ -7,8 +7,8 @@
     <string name="brand">Marca*:</string>
     <string name="type">Tipo*:</string>
     <string name="size">Tamanho*:</string>
-    <string name="price">Preço*:</string>
-    <string name="expire_product">Validade do Produto:</string>
+    <string name="price">Quanto custa?*:</string>
+    <string name="expire_product">Qual validade do Produto?</string>
     <string name="address">Endereço*:</string>
     <string name="description">Descrição:</string>
     <string name="select">Selecione</string>
@@ -43,12 +43,31 @@
     <string name="request_client_id">991438331-bv1ludgpm49oqdh7tb7q05pcclo5snc6.apps.googleusercontent.com</string>
     <string name="firebase_app_id">promobeerapp-8bc90</string>
     <string name="register_please">Para cadastrar uma promoção, por favor se registre.</string>
-    <string name="choice_product_brand">ESCOLHA A MARCA DA CERVEJA</string>
-    <string name="choice_product_type">ESCOLHA O TIPO DA CERVEJA.</string>
-    <string name="choice_product_size">ESCOLHA O TAMANHO DA CERVEJA.</string>
+    <string name="choice_product_brand">Vamos começar, escolha a marca da cerveja</string>
+    <string name="choice_product_type">Agora, escolha o estilo da cerveja.</string>
+    <string name="choice_product_material">É garrafa ou lata?</string>
+    <string name="choice_product_size">Qual o tamanho?</string>
     <string name="problem_server_connection">Sua requisição não foi processada. Tente novamente mais tarde.</string>
     <string name="error">Erro.</string>
+    <string name="google_maps_id">AIzaSyB5Cb2Kl4X5AsezToLHNf0bS5FTQ3SAo7o</string>
+    <string name="rank_by_distance">distance</string>
+    <string name="type_supermarket">supermarket</string>
+    <string name="choice_supermarket">ESCOLHA O SUPERMERCADO</string>
+    <string name="loading_address_list">Carregando supermercados...</string>
+    <string name="enable_location">Ative sua localização</string>
+    <string name="location_off">Sua localização está desabilitada.\\nPor favor, habilite sua localização para \" + \"utilizar esse aplicativo\"</string>
+    <string name="location_settings">Configurações</string>
+    <string name="cancel">Cancelar</string>
 
+    <string name = "permission_rationale"> A permissão de detectar localização é necessária para cadastro da promoção </string>
+    <string name = "permission_denied_explanation"> A permissão foi negada, mas é necessária para o cadastro da promoção. </string>
+    <string name="settings">Configuração</string>
+    <string name="no_product_with_this_size">Nenhuma cerveja encontrada.</string>
+    <string name="check_product">Confira a cerveja da promoção:</string>
+    <string name="beer">Cerveja</string>
+    <string name="check_location">Qual supermercado?</string>
+    <string name="register_promo">Cadastrar Promoção</string>
+    <string name="add_photo_please">Por favor, adiciona uma foto da promoção</string>
 </resources>
 
 

@@ -57,13 +57,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/sizeTitleTXV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/highlight_text"
                     android:textSize="@dimen/textsize_big"
                     android:layout_marginTop="@dimen/layout_margin_big"
-                    android:text="@string/choice_product_size"/>
+                    android:text="@string/choice_product_size_bottle"/>
                 <ImageView
                     android:layout_marginTop="@dimen/layout_margin_big"
                     android:src="@color/line_list"

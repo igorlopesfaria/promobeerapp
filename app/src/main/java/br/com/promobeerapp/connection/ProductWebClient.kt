@@ -48,6 +48,7 @@ class ProductWebClient {
             override fun onResponse(call: Call<RestResponse<List<ProductType>>?>?,
                                     response: Response<RestResponse<List<ProductType>>?>?) {
                 response?.body()?.let {
+                    Log.d("","response.raw().request().url();"+response?.raw()?.request()?.url())
                     val restResponse: RestResponse<List<ProductType>> = it
                     if (restResponse.data != null)
                         callbackServiceResponse.success(restResponse.data!!)
@@ -59,9 +60,54 @@ class ProductWebClient {
 
     }
 
+    fun listType( callbackServiceResponse: CallbackServiceResponse<List<ProductType>>) {
+        val call = RetrofitConfig().productService().listType()
 
+        call.enqueue(object : Callback<RestResponse<List<ProductType>>?> {
+
+            override fun onFailure(call: Call<RestResponse<List<ProductType>>?>?, t: Throwable?) {
+                callbackServiceResponse.fail(t!!)
+            }
+
+            override fun onResponse(call: Call<RestResponse<List<ProductType>>?>?,
+                                    response: Response<RestResponse<List<ProductType>>?>?) {
+                response?.body()?.let {
+                    Log.d("","response.raw().request().url();"+response?.raw()?.request()?.url())
+                    val restResponse: RestResponse<List<ProductType>> = it
+                    if (restResponse.data != null)
+                        callbackServiceResponse.success(restResponse.data!!)
+                }
+
+            }
+
+        })
+
+    }
     fun listSizeByFilter(productBrand: ProductBrand, productType: ProductType, callbackServiceResponse: CallbackServiceResponse<List<ProductSize>>) {
         val call = RetrofitConfig().productService().listSizeByFilter(productBrand.id, productType.id)
+
+        call.enqueue(object : Callback<RestResponse<List<ProductSize>>?> {
+
+            override fun onFailure(call: Call<RestResponse<List<ProductSize>>?>?, t: Throwable?) {
+                callbackServiceResponse.fail(t!!)
+            }
+
+            override fun onResponse(call: Call<RestResponse<List<ProductSize>>?>?,
+                                    response: Response<RestResponse<List<ProductSize>>?>?) {
+                response?.body()?.let {
+                    val restResponse: RestResponse<List<ProductSize>> = it
+                    if (restResponse.data != null)
+                        callbackServiceResponse.success(restResponse.data!!)
+                }
+
+            }
+
+        })
+
+    }
+
+    fun listSize( callbackServiceResponse: CallbackServiceResponse<List<ProductSize>>) {
+        val call = RetrofitConfig().productService().listSize()
 
         call.enqueue(object : Callback<RestResponse<List<ProductSize>>?> {
 

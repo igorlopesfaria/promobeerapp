@@ -20,7 +20,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:id="@+id/bottlesLayout"
                 android:gravity="center">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -41,6 +41,7 @@
 
 
             <TextView
+                android:id="@+id/titleTXV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -50,6 +51,7 @@
                 android:layout_marginBottom="@dimen/layout_margin_big"
                 android:text="@string/choice_product_type"/>
             <ImageView
+                android:id="@+id/lineIMG"
                 android:layout_marginTop="@dimen/layout_margin_big"
                 android:src="@color/line_list"
                 android:layout_width="match_parent"

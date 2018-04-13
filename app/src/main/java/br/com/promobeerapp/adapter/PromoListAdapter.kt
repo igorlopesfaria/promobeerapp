@@ -25,7 +25,7 @@ class PromoListAdapter(
         val productSizeTXV = itemView.productSizeTXV
         val productNameTXV = itemView.productNameTXV
         val publishedDateTXV = itemView.publishedDateTXV
-        val neighbhoodTXV = itemView.neighbhoodTXV
+        val vicinityTXV = itemView.vicinityTXV
 
     }
 
@@ -38,10 +38,10 @@ class PromoListAdapter(
                 .into(holder.productIMG);
         holder.productNameTXV.text = promoItem?.product?.productBrand?.name + " " +
                 promoItem?.product?.productType?.name
-        holder.priceTXV.text = promoItem?.price
-        holder.productSizeTXV.text = promoItem?.product?.productSize?.material + ": " + promoItem?.product?.productSize?.value
-        holder.publishedDateTXV.text = context?.getText(R.string.publishedDate) as String + " " + promoItem?.publishedDate
-        holder.neighbhoodTXV.text = promoItem?.address?.neighborhood
+        holder.priceTXV.text = "R$"+ promoItem?.price+",00"
+        holder.productSizeTXV.text = promoItem?.product?.productSize?.material + ": " + promoItem?.product?.productSize?.value+"ml"
+        holder.publishedDateTXV.text = context?.getText(R.string.publishedDate) as String + " " + promoItem?.getPublishedDateFormatted()
+        holder.vicinityTXV.text = promoItem?.establishment?.name + " - "+ promoItem?.establishment?.vicinity
 
 
     }

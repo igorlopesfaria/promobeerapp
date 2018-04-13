@@ -28,14 +28,17 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 
     private var productBrand:ProductBrand? = null
+    private var isFilter: Boolean  = false
 
 
     companion object {
         private val ARG_PRODUCT_BRAND: String = "ARG_PRODUCT_BRAND"
+        private val ARG_IS_FILTER: String = "ARG_IS_FILTER"
 
-        fun newInstance(productBrand: ProductBrand?): ProductTypeListFragment {
+        fun newInstance(productBrand: ProductBrand?,isFilter: Boolean): ProductTypeListFragment {
             val args = Bundle()
             args.putSerializable(ARG_PRODUCT_BRAND, productBrand)
+            args.putBoolean(ARG_IS_FILTER, isFilter)
             val fragment = ProductTypeListFragment()
             fragment.arguments = args
             return fragment
@@ -43,8 +46,12 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     }
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        productBrand= arguments?.getSerializable(ARG_PRODUCT_BRAND) as ProductBrand?
+        isFilter= arguments?.getBoolean(ARG_IS_FILTER)!!
+
         return  inflater.inflate(R.layout.fragment_product_type_list, container,
                 false)
 
@@ -54,7 +61,6 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout?.setRefreshing(true);
         swipeRefreshLayout?.setOnRefreshListener(this)
-        productBrand= arguments?.getSerializable(ARG_PRODUCT_BRAND) as ProductBrand?
 
         swipeRefreshLayout?.isRefreshing = true
         prepareLoadingLayout()
@@ -65,6 +71,15 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
             onRefresh()
         }
 
+        if(isFilter) {
+            titleTXV.visibility = View.GONE
+            bottlesLayout.visibility = View.GONE
+            lineIMG.visibility = View.GONE
+        }else {
+            titleTXV.visibility = View.VISIBLE
+            bottlesLayout.visibility = View.VISIBLE
+            lineIMG.visibility = View.VISIBLE
+        }
 
     }
 
@@ -77,41 +92,61 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     private fun getTypeList() {
 
-        productBrand?.let {
-            ProductWebClient().listTypeByFilter(it, object : CallbackServiceResponse<List<ProductType>> {
+        if(productBrand!=null )
+            ProductWebClient().listTypeByFilter(productBrand!!, object : CallbackServiceResponse<List<ProductType>> {
                 override fun success(productTypeList: List<ProductType>) {
-                    this@ProductTypeListFragment.productTypeList.clear()
-                    this@ProductTypeListFragment.productTypeList.addAll(productTypeList)
-                    prepareRecyclerviewLayout()
-                    createProductTypeListAdapter()
-                    swipeRefreshLayout?.isRefreshing = false
+                    prepareSucessScreen(productTypeList)
                 }
     
                 override fun fail(throwable: Throwable) {
-                    swipeRefreshLayout.isRefreshing = false
-                    var title:String = getString(R.string.error)
-                    var subtitle:String = getString(R.string.problem_server_connection)
-                    var drawable:Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
-    
-                    if (throwable is IOException) {
-                        title = getString(R.string.check_your_conection)
-                        subtitle =  getString(R.string.try_again_when_online)
-                        drawable  = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
-                    }
-    
-                    if (this@ProductTypeListFragment.productTypeList.size == 0) {
-                        prepareFeedbackLayout(title,
-                                subtitle,
-                                drawable)
-                    }else{
-                        view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
-                    }
-    
+                    prepareErrorScreen(throwable)
+
                 }
             })
+        else
+            ProductWebClient().listType( object : CallbackServiceResponse<List<ProductType>> {
+                override fun success(response: List<ProductType>) {
+                    prepareSucessScreen(response)
+                }
+
+                override fun fail(throwable: Throwable) {
+                    prepareErrorScreen(throwable)
+
+                }
+            })
+
+
+
+    }
+
+    fun prepareSucessScreen(response: List<ProductType>){
+        this@ProductTypeListFragment.productTypeList.clear()
+        this@ProductTypeListFragment.productTypeList.addAll(response)
+        prepareRecyclerviewLayout()
+        createProductTypeListAdapter()
+        swipeRefreshLayout?.isRefreshing = false
+
+    }
+
+    fun prepareErrorScreen(throwable: Throwable){
+        swipeRefreshLayout.isRefreshing = false
+        var title:String = getString(R.string.error)
+        var subtitle:String = getString(R.string.problem_server_connection)
+        var drawable:Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
+
+        if (throwable is IOException) {
+            title = getString(R.string.check_your_conection)
+            subtitle =  getString(R.string.try_again_when_online)
+            drawable  = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
         }
 
-
+        if (this@ProductTypeListFragment.productTypeList.size == 0) {
+            prepareFeedbackLayout(title,
+                    subtitle,
+                    drawable)
+        }else{
+            view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+        }
     }
     private fun prepareLoadingLayout() {
         feedbackLayout?.visibility = View.VISIBLE
@@ -154,7 +189,12 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 
     override fun onItemSelected(productType: ProductType) {
-        (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType), true)
+        if(!isFilter){
+            (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType, false), true)
+        }else {
+            (activity as MainActivity).preffs?.setTypeFilter(productType)
+            (activity as MainActivity).onBackPressed()
+        }
     }
 
 }

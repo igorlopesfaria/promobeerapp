@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_small"
                 android:text="Garrafa: 600ml"
-                android:textColor="@color/body_text"
+                android:textColor="@color/title_text"
                 android:textSize="@dimen/textsize_small" />
 
             <TextView
@@ -60,17 +60,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_small"
                 android:text="Data do anúncio: 15/03/18 - 10:45"
-                android:textColor="@color/body_text"
+                android:textColor="@color/title_text"
+                android:textSize="@dimen/textsize_small" />
+            <TextView
+                android:id="@+id/vicinityTXV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/title_text"
+                android:layout_marginTop="@dimen/layout_margin_small"
+
+                android:text="sadasdasdasdasdasdasdasdasdsadasdasdasdasdasdasdasdasd"
                 android:textSize="@dimen/textsize_small" />
 
-            <TextView
-                android:id="@+id/neighbhoodTXV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_small"
-                android:text="Pituba"
-                android:textColor="@color/body_text"
-                android:textSize="@dimen/textsize_small" />
         </LinearLayout>
     </LinearLayout>
 

@@ -33,6 +33,7 @@
             android:id="@+id/feedbackLayout"
             android:layout_margin="@dimen/textsize_big"
             android:orientation="vertical"
+            android:visibility="gone"
             android:gravity="center">
             <ImageView
                 android:id="@+id/feedbackIMG"

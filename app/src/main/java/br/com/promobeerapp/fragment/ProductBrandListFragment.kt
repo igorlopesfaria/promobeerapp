@@ -17,6 +17,7 @@ import br.com.promobeerapp.connection.ProductWebClient
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
 import br.com.promobeerapp.fragment.listener.OnItemSelectedListener
 import br.com.promobeerapp.model.ProductBrand
+import br.com.promobeerapp.model.ProductType
 import kotlinx.android.synthetic.main.fragment_product_brand_list.*
 import java.io.IOException
 
@@ -24,16 +25,27 @@ import java.io.IOException
 class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, OnItemSelectedListener<ProductBrand> {
 
     private val productBrandList: MutableList<ProductBrand> = mutableListOf()
+    private var isFilter: Boolean = false
 
     companion object {
-        fun newInstance(): ProductBrandListFragment {
-            return ProductBrandListFragment()
+        private val ARG_IS_FILTER: String = "ARG_IS_FILTER"
+        fun newInstance(isFilter: Boolean): ProductBrandListFragment {
+            val args = Bundle()
+            args.putBoolean(ProductBrandListFragment.ARG_IS_FILTER, isFilter)
+            val fragment = ProductBrandListFragment()
+            fragment.arguments = args
+            return fragment
+
         }
     }
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+        isFilter= arguments?.getBoolean(ProductBrandListFragment.ARG_IS_FILTER)!!
+
         return inflater.inflate(R.layout.fragment_product_brand_list, container,
                 false)
 
@@ -47,6 +59,11 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
         prepareLoadingLayout()
         getBrandList()
 
+
+        if(isFilter)
+            titleTXV.visibility = View.GONE
+        else
+            titleTXV.visibility = View.VISIBLE
 
         tryAgainBTN.setOnClickListener {
             swipeRefreshLayout.isRefreshing = true;
@@ -66,39 +83,47 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     private fun getBrandList() {
 
         ProductWebClient().listBrands(object : CallbackServiceResponse<List<ProductBrand>> {
-            override fun success(productBrandList: List<ProductBrand>) {
-                this@ProductBrandListFragment.productBrandList.clear()
-                this@ProductBrandListFragment.productBrandList.addAll(productBrandList)
-                createBrandListAdapter()
-                swipeRefreshLayout?.isRefreshing = false
+            override fun success(response: List<ProductBrand>) {
+                prepareSucessScreen(response)
             }
 
             override fun fail(throwable: Throwable) {
-                swipeRefreshLayout.isRefreshing = false
-                var title:String = getString(R.string.error)
-                var subtitle:String = getString(R.string.problem_server_connection)
-                var drawable:Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
-
-                if (throwable is IOException) {
-                    title = getString(R.string.check_your_conection)
-                    subtitle =  getString(R.string.try_again_when_online)
-                    drawable  = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
-                }
-
-                if (this@ProductBrandListFragment.productBrandList.size == 0) {
-                    prepareFeedbackLayout(title,
-                            subtitle,
-                            drawable)
-                }else{
-                    view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
-                }
-
+                prepareErrorScreen(throwable)
             }
         })
 
 
     }
+    fun prepareSucessScreen(response: List<ProductBrand>){
+        this@ProductBrandListFragment.productBrandList.clear()
+        this@ProductBrandListFragment.productBrandList.addAll(response)
+        createBrandListAdapter()
+        swipeRefreshLayout?.isRefreshing = false
 
+
+    }
+
+    fun prepareErrorScreen(throwable: Throwable){
+        swipeRefreshLayout.isRefreshing = false
+        var title:String = getString(R.string.error)
+        var subtitle:String = getString(R.string.problem_server_connection)
+        var drawable:Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
+
+        if (throwable is IOException) {
+            title = getString(R.string.check_your_conection)
+            subtitle =  getString(R.string.try_again_when_online)
+            drawable  = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
+        }
+
+        if (this@ProductBrandListFragment.productBrandList.size == 0) {
+            prepareFeedbackLayout(title,
+                    subtitle,
+                    drawable)
+        }else{
+            view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+        }
+
+    }
     private fun prepareLoadingLayout() {
         feedbackLayout?.visibility = View.VISIBLE
         feedbackTitleTXV?.visibility = View.VISIBLE
@@ -140,7 +165,12 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     }
 
     override fun onItemSelected(productBrand: ProductBrand) {
-        (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(productBrand), true)
+        if(!isFilter) {
+            (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(productBrand, false), true)
+        }else {
+            (activity as MainActivity).preffs?.setBrandFilter(productBrand)
+            (activity as MainActivity).onBackPressed()
+        }
     }
 
 }

@@ -16,9 +16,14 @@ interface ProductService {
     @GET("types")
     fun listTypeByFilter(@Query("brand") idBrand:Long) : Call<RestResponse<List<ProductType>>>
 
+    @GET("types")
+    fun listType() : Call<RestResponse<List<ProductType>>>
+
     @GET("sizes")
     fun listSizeByFilter(@Query("brand") idBrand:Long,
                           @Query("type") idType:Long) : Call<RestResponse<List<ProductSize>>>
+    @GET("sizes")
+    fun listSize() : Call<RestResponse<List<ProductSize>>>
 
     @GET("products")
     fun listByFilter(@Query("brand") idBrand:Long,

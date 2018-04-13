@@ -3,7 +3,7 @@
 
     <string name="notifications">Notificações</string>
     <string name="filter">Filtros</string>
-    <string name="publishedDate">Data do anúncio:</string>
+    <string name="publishedDate">Publicado:</string>
     <string name="brand">Marca*:</string>
     <string name="type">Tipo*:</string>
     <string name="size">Tamanho*:</string>
@@ -35,7 +35,7 @@
     <string name="loading_product_type_list">Carregando tipos de cerveja...</string>
     <string name="loading_product_brand_list">Carregando marcas de cerveja...</string>
     <string name="no_promo_found">Nenhuma promoção foi encontrada.</string>
-    <string name="try_again_later">Verifique os filtros aplicados.</string>
+    <string name="try_again_later">Verifique os filtros aplicados ou tente novamente mais tarde.</string>
     <string name="facebook_app_id">2124105444297210</string>
     <string name="fb_login_protocol_scheme">fb2124105444297210</string>
 
@@ -46,7 +46,8 @@
     <string name="choice_product_brand">Vamos começar, escolha a marca da cerveja</string>
     <string name="choice_product_type">Agora, escolha o estilo da cerveja.</string>
     <string name="choice_product_material">É garrafa ou lata?</string>
-    <string name="choice_product_size">Qual o tamanho?</string>
+    <string name="choice_product_size_can">Qual o tamanho da lata?</string>
+    <string name="choice_product_size_bottle">Qual o tamanho da garrafa?</string>
     <string name="problem_server_connection">Sua requisição não foi processada. Tente novamente mais tarde.</string>
     <string name="error">Erro.</string>
     <string name="google_maps_id">AIzaSyB5Cb2Kl4X5AsezToLHNf0bS5FTQ3SAo7o</string>
@@ -68,6 +69,10 @@
     <string name="check_location">Qual supermercado?</string>
     <string name="register_promo">Cadastrar Promoção</string>
     <string name="add_photo_please">Por favor, adiciona uma foto da promoção</string>
+    <string name="loadingSupermarket">Carregando supermercados mais próximos...</string>
+    <string name="storage_permission_rationale_title">Permission necessary</string>
+    <string name="storage_permition_rationale_message">External storage permission is necessary\"</string>
+    <string name="storage_permission_denied_message">Aplicativo não poderá pegar suas imagens pois a permissão foi negada.</string>
 </resources>
 
 

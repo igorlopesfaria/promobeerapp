@@ -20,6 +20,7 @@ import android.view.View
 import android.widget.Toast
 import br.com.promobeerapp.fragment.PromoListFragment
 import br.com.promobeerapp.model.User
+import br.com.promobeerapp.model.dao.Preffs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var user: User
     private val TAG = "LocationProvider"
-
+    var preffs: Preffs? = null
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
     /**
@@ -43,8 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     var mLastLocation: Location? = null
 
-    private var mLatitudeLabel: String? = null
-    private var mLongitudeLabel: String? = null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -55,6 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        preffs = Preffs(this)
         drawerToggle = ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 

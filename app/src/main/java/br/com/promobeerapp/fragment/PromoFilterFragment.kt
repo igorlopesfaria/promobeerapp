@@ -29,6 +29,13 @@ class PromoFilterFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.item_menu_clear ->{
+                (activity as MainActivity).preffs?.setBrandFilter(null)
+                (activity as MainActivity).preffs?.setTypeFilter(null)
+                (activity as MainActivity).preffs?.setSizeFilter(null)
+                brandTXV.text = getString(R.string.select)
+                typeTXV.text = getString(R.string.select)
+                sizeTXV.text = getString(R.string.select)
+
                 return true
 
             }
@@ -61,10 +68,36 @@ class PromoFilterFragment : Fragment() {
 
         }
 
+        brandTXV.setOnClickListener {
+            (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(true),true)
+        }
+
+        typeTXV.setOnClickListener {
+            (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(null,true),true)
+        }
+
+        sizeTXV.setOnClickListener {
+            (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(null,null, true),true)
+        }
+
         filterBTN.setOnClickListener{
             activity?.onBackPressed()
 
         }
+
+        val productBrandFiltered = (activity as MainActivity).preffs?.getBrandFilter()
+        val productTypeFiltered = (activity as MainActivity).preffs?.getTypeFilter()
+        val productSizeFiltered = (activity as MainActivity).preffs?.getSizeFilter()
+
+        if(productBrandFiltered!=null)
+            brandTXV.text = productBrandFiltered.name
+
+        if(productTypeFiltered!=null)
+            typeTXV.text = productTypeFiltered.name
+
+        if(productSizeFiltered!=null)
+            sizeTXV.text = productSizeFiltered.material + ": "+productSizeFiltered.value+"ml"
+
     }
 
     fun selecOrderByButton(){

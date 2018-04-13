@@ -13,10 +13,12 @@ import android.view.*
 import android.widget.Toast
 import br.com.promobeerapp.MainActivity
 import br.com.promobeerapp.R
+import br.com.promobeerapp.R.string.no_promo_found
 import br.com.promobeerapp.adapter.PromoListAdapter
 import br.com.promobeerapp.connection.PromoWebClient
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
 import br.com.promobeerapp.fragment.listener.OnItemSelectedListener
+import br.com.promobeerapp.model.ProductBrand
 import br.com.promobeerapp.model.Promo
 import com.paginate.Paginate
 import kotlinx.android.synthetic.main.fragment_promo_list.*
@@ -62,7 +64,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
 
             if((activity as MainActivity).verifyPermission())
                 if (activity is MainActivity )
-                    (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(), true)
+                    (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(false), true)
         }
 
         tryAgainBTN.setOnClickListener{
@@ -74,7 +76,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
                 context?.let {
                     ContextCompat.getDrawable(it, R.drawable.ic_offline)
                 })
-
+        prepareLoadingLayout()
         getPromoList()
 
     }
@@ -82,10 +84,11 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
     private fun prepareLoadingLayout() {
         feedbackLayout?.visibility = View.VISIBLE
         feedbackTitleTXV?.visibility = View.VISIBLE
-        feedbackTitleTXV?.text = context?.getText(R.string.loading_product_type_list)
+        feedbackTitleTXV?.text = context?.getText(R.string.loading_promo_list)
         feedbackIMG?.visibility = View.GONE
         feedbackSubtitleTXV?.visibility = View.GONE
         tryAgainBTN?.visibility = View.GONE
+        promoListRecyclerView?.visibility = View.GONE
     }
 
     private fun prepareFeedbackLayout(title: String, subtitle: String, drawable: Drawable?) {
@@ -100,6 +103,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
             feedbackIMG?.setImageDrawable(drawable)
         }
         tryAgainBTN?.visibility = View.VISIBLE
+        promoListRecyclerView?.visibility = View.GONE
     }
 
     private fun prepareRecyclerviewLayout() {
@@ -107,6 +111,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
         feedbackIMG?.visibility = View.GONE
         feedbackSubtitleTXV?.visibility = View.GONE
         tryAgainBTN?.visibility = View.GONE
+        promoListRecyclerView?.visibility = View.VISIBLE
     }
     override fun onRefresh() {
         if (this@PromoListFragment.promoList.size == 0)
@@ -147,111 +152,75 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
         promoListRecyclerView?.layoutManager = LinearLayoutManager(context)
         promoListAdapter= PromoListAdapter(promoList, context)
         promoListRecyclerView?.adapter = promoListAdapter
-        paginate = Paginate.with(promoListRecyclerView, callbacks)
-                .addLoadingListItem(true)
-//                .setLoadingListItemCreator(CustomLoadingListItemCreator())
-                .build();
-    }
-
-    val callbacks = object : Paginate.Callbacks {
-        override fun onLoadMore() {
-            // Load next page of data (e.g. network or database)
-            Log.d("Paginate", "onLoadMore");
-            loading = true
-//            delayPagination()
-        }
-
-        override fun isLoading(): Boolean {
-            // Indicate whether new page loading is in progress or not
-            Log.d("Paginate", "isLoading");
-            return loading
-        }
-
-        override fun hasLoadedAllItems(): Boolean {
-            // Indicate whether all data (pages) are loaded or not
-            Log.d("Paginate", "hasLoadedAllItems" );
-            return hasLoadedAllItems
-        }
     }
 
 
-    private fun populateMoreOneItem() {
-//        var promoAuxList= listOf(
-//                Promo(1,
-//                        Product(1,
-//                                ProductBrand(1, "Cerveja Eisenbahn", ""),
-//                                ProductSize(3, "350ml", "Lata", ""),
-//                                ProductType(2, "Pilsen Puro Malte", ""),
-//                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
-//                        Address("-12.990706",
-//                                "-38.473735",
-//                                "Extra - Brotas, Salvador - Bahia, Brasil",
-//                                "Brotas"),
-//                        "",
-//                        "R$ 1,90",
-//                        "18/03/18",
-//                        "16/03/18 - 10:00"),
-//                Promo(1,
-//                        Product(1,
-//                                ProductBrand(1, "Cerveja Eisenbahn", ""),
-//                                ProductSize(3, "350ml", "Lata", ""),
-//                                ProductType(2, "Pilsen Puro Malte", ""),
-//                                "https://savegnago.vteximg.com.br/arquivos/ids/285576-240-240/CERVEJA-EISENBAHN-350ML-LT-PILSEN.jpg"),
-//                        Address("-12.990706",
-//                                "-38.473735",
-//                                "Extra - Brotas, Salvador - Bahia, Brasil",
-//                                "Brotas"),
-//                        "",
-//                        "R$ 1,90",
-//                        "18/03/18",
-//                        "16/03/18 - 10:00"))
-//        promoList.addAll(promoAuxList)
-//        promoListAdapter?.notifyDataSetChanged()
-//
-//        loading = false
-//        hasLoadedAllItems= true
-//        paginate?.unbind()
-    }
-
-    fun scrollMyListViewToBottom() {
-        promoListRecyclerView.post(Runnable {
-            // Select the last row so it will scroll into view...
-            promoListRecyclerView.smoothScrollToPosition( (promoListAdapter!!.getCount()) - 1)
-        })
-    }
     private fun getPromoList() {
-        PromoWebClient().list(object : CallbackServiceResponse<List<Promo>> {
-            override fun success(response: List<Promo>) {
-                    this@PromoListFragment.promoList.clear()
-                    this@PromoListFragment.promoList.addAll(promoList)
-                    prepareRecyclerviewLayout()
-                    createPromoListAdapter()
-                    swipeRefreshLayout?.isRefreshing = false
+        val productBrandFiltered = (activity as MainActivity).preffs?.getBrandFilter()
+        val productTypeFiltered = (activity as MainActivity).preffs?.getTypeFilter()
+        val productSizeFiltered = (activity as MainActivity).preffs?.getSizeFilter()
+
+        if(productBrandFiltered==null && productTypeFiltered==null && productSizeFiltered==null) {
+            PromoWebClient().list(object : CallbackServiceResponse<List<Promo>> {
+                override fun success(response: List<Promo>) {
+                    prepareSucessScreen(response)
                 }
 
                 override fun fail(throwable: Throwable) {
-                    swipeRefreshLayout.isRefreshing = false
-                    var title: String = getString(R.string.error)
-                    var subtitle: String = getString(R.string.problem_server_connection)
-                    var drawable: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
+                    prepareErrorScreen(throwable)
+                }
+            })
+        }else{
+            PromoWebClient().listByFilter(productBrandFiltered, productTypeFiltered, productSizeFiltered ,object : CallbackServiceResponse<List<Promo>> {
+                override fun success(response: List<Promo>) {
+                    if(response.size>0)
+                        prepareSucessScreen(response)
+                    else {
+                        val drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_sad) }
 
-                    if (throwable is IOException) {
-                        title = getString(R.string.check_your_conection)
-                        subtitle = getString(R.string.try_again_when_online)
-                        drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
-                    }
-
-                    if (this@PromoListFragment.promoList.size == 0) {
-                        prepareFeedbackLayout(title,
-                                subtitle,
+                        prepareFeedbackLayout(getString(R.string.no_promo_found),
+                                getString(R.string.try_again_later),
                                 drawable)
-                    } else {
-                        view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+                        swipeRefreshLayout?.isRefreshing = false
+
                     }
+                }
 
+                override fun fail(throwable: Throwable) {
+                    prepareErrorScreen(throwable)
+                }
+            })
 
-            }
-        })
+        }
     }
 
+    fun prepareSucessScreen(response: List<Promo>){
+        this@PromoListFragment.promoList.clear()
+        this@PromoListFragment.promoList.addAll(response)
+        prepareRecyclerviewLayout()
+        createPromoListAdapter()
+        swipeRefreshLayout?.isRefreshing = false
+
+    }
+
+    fun prepareErrorScreen(throwable: Throwable){
+        swipeRefreshLayout.isRefreshing = false
+        var title: String = getString(R.string.error)
+        var subtitle: String = getString(R.string.problem_server_connection)
+        var drawable: Drawable? = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_error) }
+
+        if (throwable is IOException) {
+            title = getString(R.string.check_your_conection)
+            subtitle = getString(R.string.try_again_when_online)
+            drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_offline) }
+        }
+
+        if (this@PromoListFragment.promoList.size == 0) {
+            prepareFeedbackLayout(title,
+                    subtitle,
+                    drawable)
+        } else {
+            view?.let { Snackbar.make(it, subtitle, Snackbar.LENGTH_LONG).show() }
+        }
+    }
 }

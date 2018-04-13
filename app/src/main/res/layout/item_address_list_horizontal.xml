@@ -8,6 +8,8 @@
     android:clickable="true"
     android:focusable="true"
     android:gravity="center_vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     android:layout_margin="@dimen/layout_default_margin"
     android:orientation="vertical">
 
@@ -18,9 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="4dp"
             android:textColor="@color/body_text"
-            android:textSize="@dimen/textsize_small"
-            android:padding="@dimen/layout_margin_normal"
+            android:textSize="11dp"
             tools:text="Titulo" />
     <TextView
         android:id="@+id/detailTXV"
@@ -29,9 +31,9 @@
         android:textColor="@color/body_text"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textSize="@dimen/textsize_smallest"
-        android:layout_marginTop="-12dp"
-        android:padding="@dimen/layout_margin_normal"
+        android:textSize="9sp"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="@dimen/layout_margin_normal"
         tools:text="Rua Tomaz Gonzaga" />
 
 

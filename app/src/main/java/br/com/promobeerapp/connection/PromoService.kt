@@ -18,7 +18,9 @@ interface PromoService {
                      @Query("order") order:String,
                      @Query("orderDirection") orderDirection:String,
                      @Query("brand") idBrand:Long,
-                     @Query("type") idType:Long) : Call<RestResponse<List<Promo>>>
+                     @Query("type") idType:Long,
+                     @Query("size") idSize:Long
+                     ) : Call<RestResponse<List<Promo>>>
 
 
 }//limit=5&page=1&order=created_at&orderDirection=desc

@@ -1,5 +1,6 @@
 package br.com.promobeerapp.fragment
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -11,9 +12,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import br.com.promobeerapp.BaseActivity
 import br.com.promobeerapp.MainActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.R.string.no_promo_found
+import br.com.promobeerapp.ReturnActivity
 import br.com.promobeerapp.adapter.PromoListAdapter
 import br.com.promobeerapp.connection.PromoWebClient
 import br.com.promobeerapp.fragment.listener.CallbackServiceResponse
@@ -29,12 +32,6 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
 
 
     var promoList: MutableList<Promo> = mutableListOf()
-    var mDelayHandler: Handler? = null
-    val SPLASH_DELAY: Long = 3000 //3 seconds
-    var hasLoadedAllItems:Boolean = false
-    var GRID_SPAN:Int = 3
-    var loading: Boolean = false
-    var paginate: Paginate? = null
 
     var promoListAdapter:PromoListAdapter? = null
 
@@ -62,9 +59,17 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
         swipeRefreshLayout.setOnRefreshListener(this)
         floatingActionButton.setOnClickListener {
 
-            if((activity as MainActivity).verifyPermission())
-                if (activity is MainActivity )
-                    (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(false), true)
+            if((activity as MainActivity).verifyPermission()) {
+//                if (activity is MainActivity )
+//                    (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(false), true)
+                val intent = Intent(context, ReturnActivity::class.java)
+                val b = Bundle()
+                b.putString("fragment", ProductBrandListFragment.javaClass.name) //Your id
+                intent.putExtras(b) //Put your id to your next Intent
+
+                startActivity(intent)
+            }
+
         }
 
         tryAgainBTN.setOnClickListener{
@@ -78,6 +83,21 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
                 })
         prepareLoadingLayout()
         getPromoList()
+        (activity as MainActivity).preffs?.setRefrashPromoList(false)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val promo: Promo? = (activity as MainActivity).preffs?.getPromoRegistered()
+        promo?.let { this@PromoListFragment.promoList.add(it) }
+        (activity as MainActivity).preffs?.setPromoRegistered(null)
+
+        if((activity as MainActivity).preffs?.isRefrashPromoList()!!){
+            getPromoList()
+        }
+
 
     }
 
@@ -133,18 +153,27 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.item_menu_notification ->{
-                Toast.makeText(activity, "Clicou not", Toast.LENGTH_SHORT)
                 return true
 
             }
             R.id.item_menu_filter ->{
-                if (activity is MainActivity )
-                    (activity as MainActivity).changeFragment(PromoFilterFragment.newInstance(), true)
+                ProductBrandListFragment.productBrandSelected = null
+                ProductTypeListFragment.productTypeSelected = null
+                ProductSizeListFragment.productSizeSelected = null
+                val intent = Intent(context, ReturnActivity::class.java)
+                val b = Bundle()
+                b.putString("fragment", PromoFilterFragment.javaClass.name) //Your id
+                intent.putExtras(b) //Put your id to your next Intent
+                startActivity(intent)
+
+//                if (activity is MainActivity )
+//                    (activity as MainActivity).changeFragment(PromoFilterFragment.newInstance(), true)
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
 
 
@@ -164,6 +193,7 @@ class PromoListFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, OnI
             PromoWebClient().list(object : CallbackServiceResponse<List<Promo>> {
                 override fun success(response: List<Promo>) {
                     prepareSucessScreen(response)
+                    (activity as MainActivity).preffs?.setRefrashPromoList(false)
                 }
 
                 override fun fail(throwable: Throwable) {

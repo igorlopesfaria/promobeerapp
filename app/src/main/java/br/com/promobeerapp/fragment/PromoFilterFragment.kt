@@ -5,9 +5,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.view.*
 import android.widget.Toast
-import br.com.promobeerapp.MainActivity
+import br.com.promobeerapp.BaseActivity
 
 import br.com.promobeerapp.R
+import br.com.promobeerapp.model.ProductBrand
+import br.com.promobeerapp.model.ProductSize
+import br.com.promobeerapp.model.ProductType
 import br.com.promobeerapp.model.enum.OrderFilterState
 import kotlinx.android.synthetic.main.fragment_promo_filter.*
 
@@ -29,9 +32,14 @@ class PromoFilterFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.item_menu_clear ->{
-                (activity as MainActivity).preffs?.setBrandFilter(null)
-                (activity as MainActivity).preffs?.setTypeFilter(null)
-                (activity as MainActivity).preffs?.setSizeFilter(null)
+                (activity as BaseActivity).preffs?.setBrandFilter(null)
+                (activity as BaseActivity).preffs?.setTypeFilter(null)
+                (activity as BaseActivity).preffs?.setSizeFilter(null)
+                ProductBrandListFragment.productBrandSelected = null
+                ProductTypeListFragment.productTypeSelected = null
+                ProductSizeListFragment.productSizeSelected = null
+                (activity as BaseActivity).preffs?.setRefrashPromoList(true)
+
                 brandTXV.text = getString(R.string.select)
                 typeTXV.text = getString(R.string.select)
                 sizeTXV.text = getString(R.string.select)
@@ -68,26 +76,56 @@ class PromoFilterFragment : Fragment() {
 
         }
 
+        filterBTN.setOnClickListener{
+            (activity as BaseActivity).preffs?.setBrandFilter(ProductBrandListFragment.productBrandSelected)
+            (activity as BaseActivity).preffs?.setTypeFilter(ProductTypeListFragment.productTypeSelected)
+            (activity as BaseActivity).preffs?.setSizeFilter(ProductSizeListFragment.productSizeSelected)
+            (activity as BaseActivity).onBackPressed()
+
+        }
+
         brandTXV.setOnClickListener {
-            (activity as MainActivity).changeFragment(ProductBrandListFragment.newInstance(true),true)
+            (activity as BaseActivity).changeFragment(ProductBrandListFragment.newInstance(true),true)
         }
 
         typeTXV.setOnClickListener {
-            (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(null,true),true)
+            (activity as BaseActivity).changeFragment(ProductTypeListFragment.newInstance(null,true),true)
         }
 
         sizeTXV.setOnClickListener {
-            (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(null,null, true),true)
+            (activity as BaseActivity).changeFragment(ProductSizeListFragment.newInstance(null,null, true),true)
         }
 
         filterBTN.setOnClickListener{
+            (activity as BaseActivity).preffs?.setBrandFilter(ProductBrandListFragment.productBrandSelected)
+            (activity as BaseActivity).preffs?.setTypeFilter(ProductTypeListFragment.productTypeSelected)
+            (activity as BaseActivity).preffs?.setSizeFilter(ProductSizeListFragment.productSizeSelected)
+            (activity as BaseActivity).preffs?.setRefrashPromoList(true)
             activity?.onBackPressed()
 
         }
 
-        val productBrandFiltered = (activity as MainActivity).preffs?.getBrandFilter()
-        val productTypeFiltered = (activity as MainActivity).preffs?.getTypeFilter()
-        val productSizeFiltered = (activity as MainActivity).preffs?.getSizeFilter()
+        val productBrandFiltered:ProductBrand?
+        if(ProductBrandListFragment.productBrandSelected==null){
+            productBrandFiltered = (activity as BaseActivity).preffs?.getBrandFilter()
+        }else{
+            productBrandFiltered = ProductBrandListFragment.productBrandSelected
+        }
+
+        val productTypeFiltered:ProductType?
+        if(ProductTypeListFragment.productTypeSelected==null){
+            productTypeFiltered = (activity as BaseActivity).preffs?.getTypeFilter()
+        }else{
+            productTypeFiltered = ProductTypeListFragment.productTypeSelected
+        }
+
+        val productSizeFiltered: ProductSize?
+        if(ProductSizeListFragment.productSizeSelected==null){
+            productSizeFiltered = (activity as BaseActivity).preffs?.getSizeFilter()
+        }else{
+            productSizeFiltered = ProductSizeListFragment.productSizeSelected
+        }
+
 
         if(productBrandFiltered!=null)
             brandTXV.text = productBrandFiltered.name
@@ -99,6 +137,8 @@ class PromoFilterFragment : Fragment() {
             sizeTXV.text = productSizeFiltered.material + ": "+productSizeFiltered.value+"ml"
 
     }
+
+
 
     fun selecOrderByButton(){
         context?.let{

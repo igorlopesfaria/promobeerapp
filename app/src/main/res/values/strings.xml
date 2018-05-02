@@ -70,9 +70,18 @@
     <string name="register_promo">Cadastrar Promoção</string>
     <string name="add_photo_please">Por favor, adiciona uma foto da promoção</string>
     <string name="loadingSupermarket">Carregando supermercados mais próximos...</string>
-    <string name="storage_permission_rationale_title">Permission necessary</string>
-    <string name="storage_permition_rationale_message">External storage permission is necessary\"</string>
+    <string name="storage_permission_rationale_title">Precisa de permissões</string>
+    <string name="storage_permition_rationale_message">Este aplicativo precisa de permissão para usar recurso de câmera. Você pode concedê-los nas configurações do aplicativo.\"</string>
     <string name="storage_permission_denied_message">Aplicativo não poderá pegar suas imagens pois a permissão foi negada.</string>
+    <string name="go_settings">IR PARA CONFIGURAÇÕES</string>
+    <string name="promo_already_registered">Essa promoção já foi cadastrada. Obrigado pela colaboração.</string>
+    <string name="promo_problem_registered">Encontramos um problema no registro da promoção. Tente novamente mais tarde</string>
+    <string name="please_add_description">Por favor, adicione uma descrição da promoção</string>
+    <string name="please_add_price">Por favor, adicione um valor a promoção</string>
+    <string name="please_add_expire_date">Por favor, adicione a data de validae do produto.</string>
+    <string name="please_select_establishment">Por favor, adicione o supermercado onde é encontrada a promoção.</string>
+    <string name="please_select_correct_product">Por favor, selecione um produto válido.</string>
+    <string name="please_take_photo">Por favor, tire uma foto mostrando a promoção.</string>
 </resources>
 
 

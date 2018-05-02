@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -297,7 +297,7 @@
                         android:textSize="@dimen/textsize_normal" />
 
                     <EditText
-                        android:id="@+id/nameETX"
+                        android:id="@+id/descriptionETX"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edittext_big_height"
                         android:layout_alignParentLeft="true"
@@ -342,14 +342,15 @@
                         android:textColor="@color/highlight_text"
                         android:textSize="@dimen/textsize_normal" />
 
-                    <ImageButton
+                    <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/photoBTN"
-                        android:layout_width="65dp"
+                        android:layout_width="@dimen/photo_width"
                         android:layout_marginTop="@dimen/layout_default_margin"
                         android:scaleType="center"
-                        android:layout_height="65dp"
+                        android:layout_height="@dimen/photo_heigh"
                         android:background="@drawable/card_default"
                         android:src="@drawable/ic_add_photo"
+                        fresco:placeholderImage="@drawable/ic_add_photo"
                         />
 
                 </LinearLayout>

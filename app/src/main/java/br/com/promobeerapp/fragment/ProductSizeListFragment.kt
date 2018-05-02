@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.promobeerapp.MainActivity
+import br.com.promobeerapp.BaseActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductSizeListAdapter
 import br.com.promobeerapp.connection.ProductWebClient
@@ -39,6 +39,7 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         private val ARG_PRODUCT_BRAND: String = "ARG_PRODUCT_BRAND"
         private val ARG_PRODUCT_TYPE: String = "ARG_PRODUCT_TYPE"
         private val ARG_IS_FILTER: String = "ARG_IS_FILTER"
+        var productSizeSelected: ProductSize? = null
 
         fun newInstance(productBrand: ProductBrand?, productType: ProductType?, isFilter:Boolean): ProductSizeListFragment {
             val args = Bundle()
@@ -71,7 +72,7 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         swipeRefreshLayout.isRefreshing = true
         prepareLoadingLayout()
         getSizeList()
-
+        productSizeSelected =null
         tryAgainBTN.setOnClickListener {
             swipeRefreshLayout?.isRefreshing = true;
             onRefresh()
@@ -256,10 +257,10 @@ class ProductSizeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     override fun onItemSelected(productSize: ProductSize) {
 
         if(!isFilter){
-            (activity as MainActivity).changeFragment(PromoRegisterFragment.newInstance(productBrand, productType ,productSize), true)
+            (activity as BaseActivity).changeFragment(PromoRegisterFragment.newInstance(productBrand, productType ,productSize), true)
         }else {
-            (activity as MainActivity).preffs?.setSizeFilter(productSize)
-            (activity as MainActivity).onBackPressed()
+            productSizeSelected = productSize
+            (activity as BaseActivity).onBackPressed()
         }
 
     }

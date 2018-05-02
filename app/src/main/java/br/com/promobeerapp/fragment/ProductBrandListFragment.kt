@@ -10,7 +10,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.promobeerapp.MainActivity
+import br.com.promobeerapp.BaseActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductBrandListAdapter
 import br.com.promobeerapp.connection.ProductWebClient
@@ -28,6 +28,7 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     private var isFilter: Boolean = false
 
     companion object {
+        var productBrandSelected: ProductBrand? = null
         private val ARG_IS_FILTER: String = "ARG_IS_FILTER"
         fun newInstance(isFilter: Boolean): ProductBrandListFragment {
             val args = Bundle()
@@ -54,7 +55,7 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
-
+        productBrandSelected = null
         swipeRefreshLayout.isRefreshing = true
         prepareLoadingLayout()
         getBrandList()
@@ -166,10 +167,11 @@ class ProductBrandListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onItemSelected(productBrand: ProductBrand) {
         if(!isFilter) {
-            (activity as MainActivity).changeFragment(ProductTypeListFragment.newInstance(productBrand, false), true)
+            (activity as BaseActivity).changeFragment(ProductTypeListFragment.newInstance(productBrand, false), true)
         }else {
-            (activity as MainActivity).preffs?.setBrandFilter(productBrand)
-            (activity as MainActivity).onBackPressed()
+//            (activity as BaseActivity).preffs?.setBrandFilter(productBrand)
+            productBrandSelected = productBrand
+            (activity as BaseActivity).onBackPressed()
         }
     }
 

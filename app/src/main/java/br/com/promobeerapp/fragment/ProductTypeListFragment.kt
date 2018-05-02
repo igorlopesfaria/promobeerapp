@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.promobeerapp.MainActivity
+import br.com.promobeerapp.BaseActivity
 import br.com.promobeerapp.R
 import br.com.promobeerapp.adapter.ProductTypeListAdapter
 import br.com.promobeerapp.connection.ProductWebClient
@@ -34,6 +34,7 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
     companion object {
         private val ARG_PRODUCT_BRAND: String = "ARG_PRODUCT_BRAND"
         private val ARG_IS_FILTER: String = "ARG_IS_FILTER"
+        var productTypeSelected: ProductType? = null
 
         fun newInstance(productBrand: ProductBrand?,isFilter: Boolean): ProductTypeListFragment {
             val args = Bundle()
@@ -65,6 +66,7 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
         swipeRefreshLayout?.isRefreshing = true
         prepareLoadingLayout()
         getTypeList()
+        productTypeSelected = null
 
         tryAgainBTN.setOnClickListener {
             swipeRefreshLayout.isRefreshing = true;
@@ -190,10 +192,10 @@ class ProductTypeListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     override fun onItemSelected(productType: ProductType) {
         if(!isFilter){
-            (activity as MainActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType, false), true)
+            (activity as BaseActivity).changeFragment(ProductSizeListFragment.newInstance(productBrand,productType, false), true)
         }else {
-            (activity as MainActivity).preffs?.setTypeFilter(productType)
-            (activity as MainActivity).onBackPressed()
+            productTypeSelected = productType
+            (activity as BaseActivity).onBackPressed()
         }
     }
 

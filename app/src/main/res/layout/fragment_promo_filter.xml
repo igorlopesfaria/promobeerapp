@@ -127,7 +127,6 @@
         android:id="@+id/filterBTN"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_normal_height"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:background="@drawable/default_button"
         android:textAllCaps="true"

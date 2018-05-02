@@ -3,7 +3,7 @@ package br.com.promobeerapp.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Establishment(var id: Long,
+data class Establishment(var id: String,
                          var latitude: String,
                          var longitude: String,
                          @SerializedName("gm_place_id")

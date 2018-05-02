@@ -1,22 +1,27 @@
 package br.com.promobeerapp.model
 
 import android.annotation.SuppressLint
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import java.io.File
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * Created by root on 14/03/18.
  */
-data class Promo(var id: Long,
+data class Promo(var id: Long?,
                  var product: Product,
                  var description: String,
                  var price: String,
                  @SerializedName("product_valid_until")
                  var expiredDate: String,
                  @SerializedName("published_at")
-                 var publishedDate: String,
-                 var establishment: Establishment){
+                 var publishedDate: String?,
+                 var establishment: Establishment,
+                 var file: File): Serializable {
 
     @SuppressLint("SimpleDateFormat")
     fun getExpiredDateFormatted():String{
